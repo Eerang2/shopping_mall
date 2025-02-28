@@ -21,11 +21,23 @@ public class SellerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seller_key")
     private Long key;
+
+    @Column(nullable = false)
     private String id;
+
+    @Column(nullable = false)
     private String storeName;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String registrationNumber;  // 사업자 등록 번호
+
+    @Column(nullable = false)
     private ApprovalStatus status;
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
 }
