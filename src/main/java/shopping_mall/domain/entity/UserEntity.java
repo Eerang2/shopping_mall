@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import shopping_mall.domain.enums.Role;
 import shopping_mall.domain.enums.UserStatus;
 
 import java.time.LocalDateTime;
@@ -15,6 +18,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
 
     @Id
@@ -29,11 +33,18 @@ public class UserEntity {
     private String password;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserStatus status;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false, name = "grade_policy_key")
     private Long userGradeKey;
+
 }

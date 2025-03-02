@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import shopping_mall.domain.enums.ApprovalStatus;
+import shopping_mall.domain.enums.Role;
 
 import java.time.LocalDateTime;
 
@@ -33,6 +34,9 @@ public class SellerEntity {
 
     @Column(nullable = false)
     private String registrationNumber;  // 사업자 등록 번호
+
+    @Column(nullable = false)
+    private Role role;
 
     @Column(nullable = false)
     private ApprovalStatus status;
