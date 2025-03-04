@@ -37,4 +37,20 @@ public class UserReq {
                     .build();
         }
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Login {
+        private String userId;
+        private String password;
+
+        public User toUser() {
+            return User.builder()
+                    .id(userId)
+                    .password(password)
+                    .build();
+        }
+    }
 }

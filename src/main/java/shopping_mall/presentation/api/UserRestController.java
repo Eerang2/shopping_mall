@@ -1,9 +1,13 @@
 package shopping_mall.presentation.api;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shopping_mall.application.service.UserService;
+import shopping_mall.infrastructure.util.CookieUtil;
 import shopping_mall.presentation.dto.UserReq;
 
 import java.util.HashMap;
@@ -27,11 +31,24 @@ public class UserRestController {
     }
 
     @PostMapping("/register")
-    public void register(@RequestBody UserReq.Register user) {
+    public void register(@RequestBody @Valid UserReq.Register user) {
         if (user.passwordMatch()) {
             throw new IllegalArgumentException("비밀번호가 일치하지않습니다.");
         }
-
         userService.register(user.toUser());
+    }
+
+    @PostMapping("/login")
+    public void login(@RequestBody @Valid UserReq.Login user,
+                         HttpServletResponse response) {
+
+        String token = userService.login(user.toUser());
+        response.addCookie(CookieUtil.createJwtCookie(token));
+    }
+
+    @PostMapping("/logout")
+    public void logout(@CookieValue(value = "JWT_TOKEN", required = false) final String token,
+                       HttpServletResponse response) {
+        response.addCookie(CookieUtil.deleteJwtCookie(token));
     }
 }
