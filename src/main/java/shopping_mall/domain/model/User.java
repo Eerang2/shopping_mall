@@ -42,15 +42,6 @@ public class User {
         return new User(id, password, UserStatus.ACTIVE, Role.USER, 1L);
     }
 
-    public static User of(Long key, String id, Role role) {
-        return new User(key, id, role);
-    }
-
-    public User(Long key, String id, Role role) {
-        this.key = key;
-        this.id = id;
-        this.role = role;
-    }
 
     public User(String id, String password, UserStatus status, Role role, Long userGradeKey) {
         this.id = id;

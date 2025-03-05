@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shopping_mall.application.service.AuthService;
+import shopping_mall.application.service.dto.AuthUser;
 import shopping_mall.domain.entity.UserEntity;
 import shopping_mall.domain.exception.LoginValidException;
 import shopping_mall.domain.model.User;
@@ -54,8 +55,9 @@ public class UserServiceImpl implements AuthService<User> {
         if (!passwordEncoder.matches(user.getPassword(), entity.getPassword())) {
             throw new LoginValidException();
         }
-        User info = User.of(entity.getKey(), entity.getId(), entity.getRole());
+
+        AuthUser authUser = AuthUser.of(entity.getKey(), entity.getId(), entity.getRole());
         // 토큰 생성
-        return jwtUtil.createAccessToken(info);
+        return jwtUtil.createAccessToken(authUser);
     }
 }

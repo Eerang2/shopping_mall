@@ -7,6 +7,7 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import shopping_mall.application.service.dto.AuthUser;
 import shopping_mall.domain.enums.Role;
 import shopping_mall.domain.model.User;
 
@@ -30,11 +31,11 @@ public class JwtUtil {
     private static final String USER_ID_KEY_NAME = "name";
     private static final String USER_ROLE_KEY_NAME = "role";
 
-    public String createAccessToken(final User user) {
+    public String createAccessToken(final AuthUser user) {
         return this.createAccessToken(user, EXPIRATION_TIME_MS);
     }
 
-    public String createAccessToken(final User user, final long expirationTimeMs) {
+    public String createAccessToken(final AuthUser user, final long expirationTimeMs) {
         String token = Jwts.builder()
                 .claim(USER_NO_KEY_NAME, user.getKey())
                 .claim(USER_ID_KEY_NAME, user.getId())

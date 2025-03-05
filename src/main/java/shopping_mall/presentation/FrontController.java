@@ -25,4 +25,8 @@ public class FrontController {
     public String sellerRegister() {
         return "seller/register";
     }
+    @GetMapping("/seller/login")
+    public String sellerLogin() {
+        return "seller/login";
+    }
 }
