@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ApprovalStatus {
-    APPROVED("승인"), REJECTED("거절");
+    APPROVED("승인"), PENDING("대기"), REJECTED("거절");
     private final String status;
 }
