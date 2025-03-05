@@ -1,19 +1,5 @@
 $(document).ready(function () {
-    let isUsernameAvailable = false; // 아이디 중복 확인 상태
-
-    // ✅ 아이디 입력 실시간 검사
-    $("#userId").on("input", function () {
-        let username = $(this).val().trim();
-        isUsernameAvailable = false; // 아이디 변경 시 중복 확인 초기화
-
-        if (!/^[a-zA-Z0-9]*$/.test(username)) {
-            $("#usernameCheckResult").text("아이디는 숫자와 영문자만 가능합니다.").css("color", "red");
-        } else if (username.length < 4 || username.length > 12) {
-            $("#usernameCheckResult").text("아이디는 4~12자여야 합니다.").css("color", "red");
-        } else {
-            $("#usernameCheckResult").text(""); // 정상 입력이면 메시지 제거
-        }
-    });
+    let isUsernameAvailable = false;
 
     // ✅ 비밀번호 입력 실시간 검사
     $("#password").on("input", function () {
@@ -42,22 +28,22 @@ $(document).ready(function () {
 
     // ✅ 아이디 중복 확인 AJAX 요청
     $("#checkUsernameBtn").click(function () {
-        let username = $("#userId").val().trim();
-        if (username === "") {
+        let adminId = $("#adminId").val().trim();
+        if (adminId === "") {
             $("#usernameCheckResult").text("아이디를 입력하세요.").css("color", "red");
             return;
         }
 
         $.ajax({
             type: "GET",
-            url: "/api/check-id",
-            data: { username: username },
+            url: "/api/admin/check-id",
+            data: { adminId: adminId },
             success: function (response) {
                 if (response.available) {
-                    $("#usernameCheckResult").text("사용 가능한 아이디입니다.").css("color", "green");
+                    $("#usernameCheckResult").text("아이디 확인되었습니다.").css("color", "green");
                     isUsernameAvailable = true;
                 } else {
-                    $("#usernameCheckResult").text("이미 사용 중인 아이디입니다.").css("color", "red");
+                    $("#usernameCheckResult").text("지정된 아이디가 아닙니다").css("color", "red");
                     isUsernameAvailable = false;
                 }
             },
@@ -71,23 +57,13 @@ $(document).ready(function () {
     $("#registerForm").submit(function (event) {
         event.preventDefault(); // 기본 폼 제출 막기
 
-        let username = $("#userId").val().trim();
+        let adminId = $("#adminId").val().trim();
         let password = $("#password").val().trim();
         let confirmPassword = $("#confirmPassword").val().trim();
 
         // 아이디 중복 확인 여부 체크
         if (!isUsernameAvailable) {
-            alert("아이디 중복 확인을 해주세요.");
-            return;
-        }
-
-        // 최종 유효성 검사
-        if (!/^[a-zA-Z0-9]*$/.test(username)) {
-            alert("아이디는 숫자와 영문자만 가능합니다.");
-            return;
-        }
-        if (username.length < 4 || username.length > 12) {
-            alert("아이디는 4~12자여야 합니다.");
+            alert("관리자 아이디 체크 검사를 해주세요.");
             return;
         }
         if (password.length < 8) {
@@ -104,22 +80,22 @@ $(document).ready(function () {
         }
 
         let formData = {
-            userId: username,
+            adminId: adminId,
             password: password,
             confirmPassword: confirmPassword
         };
 
         $.ajax({
             type: "POST",
-            url: "/api/register",
+            url: "/api/admin/register",
             contentType: "application/json",
             data: JSON.stringify(formData),
             success: function (response) {
-                alert("회원가입이 완료되었습니다!");
+                alert("비밀번호 설정이 완료되었습니다!");
                 window.location.href = "/login"; // 로그인 페이지로 이동
             },
             error: function (xhr) {
-                let errorMsg = xhr.responseJSON?.message || "회원가입에 실패했습니다.";
+                let errorMsg = xhr.responseJSON?.message || "가입에 실패했습니다.";
                 alert(errorMsg);
             }
         });

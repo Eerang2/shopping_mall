@@ -53,7 +53,7 @@ $(document).ready(function () {
             url: "/api/check-id",
             data: { username: sellerId },
             success: function (response) {
-                if (response) {
+                if (response.available) {
                     $("#usernameCheckResult").text("사용 가능한 아이디입니다.").css("color", "green");
                     isUsernameAvailable = true;
                 } else {
