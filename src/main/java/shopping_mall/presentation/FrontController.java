@@ -29,4 +29,12 @@ public class FrontController {
     public String sellerLogin() {
         return "seller/login";
     }
+    @GetMapping("/admin/register")
+    public String adminRegister() {
+        return "admin/register";
+    }
+    @GetMapping("/admin/login")
+    public String adminLogin() {
+        return "admin/login";
+    }
 }
