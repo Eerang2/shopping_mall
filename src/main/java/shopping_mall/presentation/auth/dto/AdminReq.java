@@ -37,12 +37,12 @@ public class AdminReq {
     @NoArgsConstructor
     public static class Login {
 
-        private String sellerId;
+        private String adminId;
         private String password;
 
         public Admin toModel() {
             return Admin.builder()
-                    .id(sellerId)
+                    .id(adminId)
                     .password(password)
                     .build();
         }

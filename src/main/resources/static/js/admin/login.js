@@ -2,11 +2,11 @@ $(document).ready(function() {
     $("#loginForm").submit(function(event) {
         event.preventDefault(); // 기본 폼 제출 막기
 
-        let userId = $("#userId").val().trim();
+        let adminId = $("#adminId").val().trim();
         let password = $("#password").val().trim();
 
         // 유효성 검사
-        if (userId === "" || password === "") {
+        if (adminId === "" || password === "") {
             alert("아이디와 비밀번호를 입력하세요.");
             return;
         }
@@ -15,7 +15,7 @@ $(document).ready(function() {
             type: "POST",
             url: "/api/admin/login",
             contentType: "application/json",
-            data: JSON.stringify({ userId: userId, password: password }),
+            data: JSON.stringify({ adminId: adminId, password: password }),
             success: function(response) {
                 // 토큰 저장 (로컬스토리지 또는 쿠키 사용 가능)
 
