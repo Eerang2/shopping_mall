@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import shopping_mall.domain.auth.entity.UserEntity;
 import shopping_mall.domain.auth.enums.Role;
 import shopping_mall.domain.auth.enums.UserStatus;
-import shopping_mall.domain.auth.exception.register.MemberIdValidateException;
-import shopping_mall.domain.auth.exception.register.PasswordValidateException;
+import shopping_mall.domain.auth.exception.register.ValidMemberIdException;
+import shopping_mall.domain.auth.exception.register.ValidPasswordException;
 
 import java.time.LocalDateTime;
 
@@ -28,13 +28,13 @@ public class User {
 
     public void validate() {
         if (!password.matches(".*\\d.*") || !password.matches(".*[A-Za-z].*")) {
-            throw new PasswordValidateException("비밀번호는 숫자와 영문자, 특수문자를 포함해야합니다.");
+            throw new ValidPasswordException("비밀번호는 숫자와 영문자, 특수문자를 포함해야합니다.");
         } else if (password.length() < 8 ) {
-            throw new PasswordValidateException("비밀번호는 8자 이상입니다.");
+            throw new ValidPasswordException("비밀번호는 8자 이상입니다.");
         } else if (!id.matches("^[a-zA-Z0-9]*$")) {
-            throw new MemberIdValidateException("아이디는 숫자와 영문자만 사용할수있습니다.");
+            throw new ValidMemberIdException("아이디는 숫자와 영문자만 사용할수있습니다.");
         } else if (id.length() < 4 || id.length() > 12) {
-            throw new MemberIdValidateException("아이디는 4자 이상 12자 이하입니다.");
+            throw new ValidMemberIdException("아이디는 4자 이상 12자 이하입니다.");
         }
     }
 

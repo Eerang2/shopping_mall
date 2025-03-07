@@ -49,7 +49,6 @@ public class SellerServiceImpl implements AuthService<Seller> {
     @Transactional
     public String login(Seller seller) {
 
-
         // validation
         SellerEntity sellerEntity = sellerRepository.findById(seller.getId())
                 .orElseThrow(LoginValidException::new);

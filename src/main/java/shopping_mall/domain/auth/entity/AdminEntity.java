@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import shopping_mall.domain.auth.enums.ApprovalStatus;
 import shopping_mall.domain.auth.enums.Role;
@@ -37,6 +39,10 @@ public class AdminEntity {
     @Enumerated(EnumType.STRING)
     private ApprovalStatus status;
 
-    @CreatedDate
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdAt;  // 관리자 생성일
+
+    @LastModifiedDate
+    private LocalDateTime passwordSetAt;  // 비밀번호 생성일
 }
