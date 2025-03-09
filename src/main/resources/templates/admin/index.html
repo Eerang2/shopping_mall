@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="/css/admin/index.css"> <!-- 외부 CSS 파일 -->
+</head>
+<body>
+
+<!-- 사이드바 포함 (sideBar.html을 포함) -->
+<div th:replace="~{fragments/admin/sidebar :: sidebar}"></div>
+
+
+<!-- 메인 콘텐츠 영역 -->
+<div class="content">
+    <h1>Admin 페이지</h1>
+    <p>이 곳은 관리자 페이지입니다.</p>
+</div>
+<script>
+    // 드롭다운 메뉴 열기/닫기 이벤트 처리
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    // 드롭다운 메뉴 클릭 시 열기/닫기
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // 클릭한 드롭다운 토글 메뉴만 열기
+            const dropdown = this.nextElementSibling;
+            const isVisible = dropdown.style.display === 'block';
+
+            // 모든 드롭다운 메뉴를 닫기
+            dropdowns.forEach(drop => {
+                drop.style.display = 'none';
+            });
+
+            // 클릭한 메뉴가 닫혀 있으면 열기
+            if (!isVisible) {
+                dropdown.style.display = 'block';
+            }
+        });
+    });
+
+    // 외부 클릭 시 드롭다운 메뉴 닫기
+    document.addEventListener('click', function(e) {
+        // 사이드바 외부 클릭 시 드롭다운 닫기
+        if (!e.target.closest('.sidebar')) {
+            dropdowns.forEach(drop => {
+                drop.style.display = 'none';
+            });
+        }
+    });
+</script>
+<script src="/js/admin/sideBar.js"></script>
+</body>
+</html>

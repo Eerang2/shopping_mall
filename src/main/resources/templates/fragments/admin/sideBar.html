@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/admin/index.css"> <!-- 외부 CSS 파일 -->
+<!-- sideBar.html -->
+    <title></title>
+    <div th:fragment="sidebar" class="sidebar">
+        <!-- 역할 (role) 표시 -->
+        <div class="role">
+            <p>Role: ADMIN</p>
+        </div>
+
+        <!-- 유저 관련 메뉴 (드롭다운) -->
+        <a href="#" class="dropdown-toggle">유저</a>
+        <div class="dropdown">
+            <a href="user-management.html">관리</a>
+            <a href="user-view.html">조회</a>
+        </div>
+
+        <!-- 판매자 관련 메뉴 (드롭다운) -->
+        <a href="#" class="dropdown-toggle">판매자</a>
+        <div class="dropdown">
+            <a href="seller-management.html">관리</a>
+            <a href="seller-view.html">조회</a>
+            <a href="seller-approval.html">승인</a>
+        </div>
+
+        <!-- 어드민 관련 메뉴 (드롭다운) -->
+        <a href="#" class="dropdown-toggle">어드민</a>
+        <div class="dropdown">
+            <a href="admin-management.html">관리</a>
+            <a href="admin-view.html">조회</a>
+            <a href="admin-approval.html">승인</a>
+            <a href="/admin/create">생성</a>
+        </div>
+
+        <!-- 상품 관련 메뉴 (드롭다운) -->
+        <a href="#" class="dropdown-toggle">상품</a>
+        <div class="dropdown">
+            <a href="product-view.html">조회</a>
+            <a href="policy-create.html">정책 생성</a>
+            <a href="discount-create.html">할인 생성</a>
+        </div>
+    </div>
+</head>
+</html>

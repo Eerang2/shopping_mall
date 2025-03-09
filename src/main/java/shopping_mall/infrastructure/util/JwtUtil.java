@@ -19,11 +19,9 @@ import java.util.Date;
 @Slf4j
 public class JwtUtil {
 
-    private final String secretKey;
     private final SecretKey key;
 
     public JwtUtil(@Value("${jwt.secret.key}") String secretKey) {
-        this.secretKey = secretKey;
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
     Long EXPIRATION_TIME_MS = 1000 * 60 * 60 * 24L; // 24시간

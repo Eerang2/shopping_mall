@@ -1,4 +1,4 @@
-package shopping_mall.presentation;
+package shopping_mall.presentation.front;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,5 +36,15 @@ public class FrontController {
     @GetMapping("/admin/login")
     public String adminLogin() {
         return "admin/login";
+    }
+
+    @GetMapping("/admin/index")
+    public String adminIndex() {
+        return "admin/index";
+    }
+
+    @GetMapping("/seller/index")
+    public String sellerIndex() {
+        return "seller/index";
     }
 }
