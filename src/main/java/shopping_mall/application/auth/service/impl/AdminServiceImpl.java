@@ -25,6 +25,7 @@ public class AdminServiceImpl implements AuthService<Admin> {
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final UniqueIdGenerator uniqueIdGenerator;
 
     @Override
     public boolean checkId(String id) {
@@ -67,5 +68,12 @@ public class AdminServiceImpl implements AuthService<Admin> {
         AuthUser auth = AuthUser.of(adminEntity.getKey(), admin.getId(), adminEntity.getRole());
 
         return jwtUtil.createAccessToken(auth);
+    }
+
+    @Transactional
+    public void createAdmin(Admin admin) {
+        String uniqueId = uniqueIdGenerator.generateUniqueId();
+        AdminEntity entity = admin.toEntity(uniqueId, admin.getName(), admin.getRole());
+        adminRepository.save(entity);
     }
 }

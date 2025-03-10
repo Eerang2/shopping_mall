@@ -18,6 +18,7 @@ public class Admin {
 
     private Long key;
     private String id;
+    private String name;
     private String password;
     private Role role;
     private ApprovalStatus status;
@@ -35,15 +36,30 @@ public class Admin {
         this.role = role;
     }
 
+    public Admin(String id, Role role) {
+        this.id = id;
+        this.role = role;
+    }
+
     public AdminEntity toEntity() {
         return AdminEntity.builder()
                 .key(key)
                 .id(id)
+                .name(name)
                 .password(password)
                 .role(role)
                 .status(ApprovalStatus.APPROVED)
                 .createdAt(createdAt)
                 .passwordSetAt(passwordSetAt)
+                .build();
+    }
+
+    public AdminEntity toEntity(String id, String name, Role role) {
+        return AdminEntity.builder()
+                .id(id)
+                .name(name)
+                .role(role)
+                .status(ApprovalStatus.PENDING)
                 .build();
     }
 }

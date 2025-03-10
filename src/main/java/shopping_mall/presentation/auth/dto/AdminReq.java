@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import shopping_mall.domain.auth.enums.Role;
 import shopping_mall.domain.auth.model.Admin;
 
 @Getter
@@ -45,6 +46,28 @@ public class AdminReq {
                     .id(adminId)
                     .password(password)
                     .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Create {
+
+        private String adminName;
+        private String role;
+
+
+        public Admin toModel() {
+            if (role.equals(Role.ADMIN.name())) {
+                return Admin.builder()
+                    .name(adminName)
+                    .role(Role.ADMIN)
+                    .build();
+            }
+            System.out.println("======");
+            throw new IllegalArgumentException("권한이 알맞지 않습니다.");
         }
     }
 }

@@ -1,25 +1,20 @@
 $(document).ready(function() {
-    $("#loginForm").submit(function(event) {
+    $("#create-admin").submit(function(event) {
         event.preventDefault(); // 기본 폼 제출 막기
 
-        let adminId = $("#adminId").val().trim();
-        let password = $("#password").val().trim();
+        let adminName = $("#adminId").val().trim();
+        let role = $("#adminRole").val();
 
-        // 유효성 검사
-        if (adminId === "" || password === "") {
-            alert("아이디와 비밀번호를 입력하세요.");
-            return;
-        }
 
         $.ajax({
             type: "POST",
-            url: "/api/admin/login",
+            url: "/api/admin/create",
             contentType: "application/json",
-            data: JSON.stringify({ adminId: adminId, password: password }),
+            data: JSON.stringify({ adminName: adminName, role: role }),
             success: function(response) {
                 // 토큰 저장 (로컬스토리지 또는 쿠키 사용 가능)
 
-                alert("로그인 성공!");
+                alert("생성 성공!");
                 window.location.href = "/admin/index"; // 메인 페이지로 이동
             },
             error: function(xhr) {

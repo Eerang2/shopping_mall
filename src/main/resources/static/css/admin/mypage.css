@@ -1,0 +1,61 @@
+/* 기본 설정 */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+/* 사이드바와 콘텐츠가 겹치지 않도록 */
+.content {
+    flex: 1;
+    margin-left: 250px; /* 사이드바 크기만큼 여백 추가 */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 마이페이지 컨테이너 */
+.mypage-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+}
+
+/* 제목 */
+.mypage-container h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #2c3e50;
+}
+
+/* 사용자 정보 */
+.info {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* 로그아웃 버튼 */
+.logout-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.logout-btn:hover {
+    background-color: darkred;
+}

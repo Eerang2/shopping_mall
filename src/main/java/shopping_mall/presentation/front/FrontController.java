@@ -11,6 +11,11 @@ public class FrontController {
         return "index";
     }
 
+    @GetMapping("/logout")
+    public String logout() {
+        return "logout";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";

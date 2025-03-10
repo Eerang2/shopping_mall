@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>어드민 마이페이지</title>
+    <link rel="stylesheet" href="/css/admin/index.css"> <!-- CSS 연결 -->
+    <link rel="stylesheet" href="/css/admin/mypage.css">
+</head>
+<body>
+<div th:replace="~{fragments/admin/sidebar :: sidebar}"></div>
+
+<!-- 마이페이지 콘텐츠 -->
+<div class="content">
+    <div class="mypage-container">
+        <h1>어드민 마이페이지</h1>
+
+        <div class="info">
+            <p><label>이름:</label> <span th:text="${admin.id}">관리자 이름</span></p>
+            <p><label>직급:</label> <span th:text="${admin.role}">관리자 직급</span></p>
+        </div>
+
+        <form action="api/admin/logout" method="post">
+            <button type="submit" class="logout-btn" onclick="logout()">로그아웃</button>
+        </form>
+    </div>
+</div>
+<script src="/js/admin/mypage.js"></script>
+<script src="/js/admin/sideBar.js"></script>
+</body>
+</html>

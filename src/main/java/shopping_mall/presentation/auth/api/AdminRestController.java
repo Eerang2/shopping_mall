@@ -1,5 +1,6 @@
 package shopping_mall.presentation.auth.api;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,10 @@ public class AdminRestController {
     public void logout(@CookieValue(value = "JWT_TOKEN", required = false) final String token,
                        HttpServletResponse response) {
         response.addCookie(CookieUtil.deleteJwtCookie(token));
+    }
+
+    @PostMapping("/create")
+    public void createAdmin(@RequestBody  AdminReq.Create admin) {
+        adminService.createAdmin(admin.toModel());
     }
 }
