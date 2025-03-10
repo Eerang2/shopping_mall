@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>판매자 승인</title>
+    <!-- 사이드바 CSS 파일 링크 -->
+    <link rel="stylesheet" href="/css/admin/index.css">
+    <link rel="stylesheet" href="/css/admin/approve-seller.css">
+    <!-- 본문 내용 CSS 파일 링크 -->
+    <link rel="stylesheet" href="/css/admin/content.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery 추가 -->
+</head>
+<body>
+
+<div th:replace="~{fragments/admin/sideBar :: sidebar}"></div>
+<div class="content">
+<h1>판매자 승인 대기 목록</h1>
+<div class="seller-list">
+    <div class="seller-item" th:each="seller : ${sellers}">
+        <div class="seller-info">
+            <p><strong>판매자 이름:</strong> <span th:text="${seller.storeName}"></span></p>
+        </div>
+
+        <!-- 승인 및 거절 버튼 -->
+        <form action="#" th:action="@{/admin/sellers/approve/{id}(id=${seller.id})}" method="post" style="display:inline;">
+            <button type="submit">승인</button>
+        </form>
+        <form action="#" th:action="@{/admin/sellers/reject/{id}(id=${seller.id})}" method="post" style="display:inline;">
+            <button type="submit">거절</button>
+        </form>
+    </div>
+</div>
+</div>
+<script src="/js/admin/sideBar.js"></script>
+
+</body>
+</html>

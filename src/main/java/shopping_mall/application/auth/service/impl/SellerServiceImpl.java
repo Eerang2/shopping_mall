@@ -16,6 +16,8 @@ import shopping_mall.domain.auth.model.Seller;
 import shopping_mall.infrastructure.auth.repository.SellerRepository;
 import shopping_mall.infrastructure.util.JwtUtil;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -68,5 +70,9 @@ public class SellerServiceImpl implements AuthService<Seller> {
         // token 생성
         AuthUser authUser = AuthUser.of(sellerEntity.getKey(), sellerEntity.getId(), sellerEntity.getRole());
         return jwtUtil.createAccessToken(authUser);
+    }
+
+    public List<SellerEntity> findAll() {
+        return sellerRepository.findAllByStatus(ApprovalStatus.PENDING);
     }
 }
