@@ -23,10 +23,10 @@
         </div>
 
         <!-- 승인 및 거절 버튼 -->
-        <form action="#" th:action="@{/admin/sellers/approve/{id}(id=${seller.id})}" method="post" style="display:inline;">
+        <form action="#" th:action="@{/api/admin/seller/approve/{id}(id=${seller.id})}" method="post" style="display:inline;">
             <button type="submit">승인</button>
         </form>
-        <form action="#" th:action="@{/admin/sellers/reject/{id}(id=${seller.id})}" method="post" style="display:inline;">
+        <form action="#" th:action="@{/api/admin/seller/reject/{id}(id=${seller.id})}" method="post" style="display:inline;">
             <button type="submit">거절</button>
         </form>
     </div>

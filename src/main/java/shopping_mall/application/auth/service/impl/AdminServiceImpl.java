@@ -40,7 +40,7 @@ public class AdminServiceImpl implements AuthService<Admin> {
         AdminEntity adminEntity = adminRepository.findById(admin.getId())
                         .orElseThrow(ValidRoleException::new);
 
-        if (adminEntity.getStatus() != ApprovalStatus.PENDING || adminEntity.getPassword() == null) {
+        if (adminEntity.getStatus() != ApprovalStatus.PENDING ) {
             throw new ValidRoleException();
         }
         // 암호화
@@ -73,7 +73,7 @@ public class AdminServiceImpl implements AuthService<Admin> {
     @Transactional
     public void createAdmin(Admin admin) {
         String uniqueId = uniqueIdGenerator.generateUniqueId();
-        AdminEntity entity = admin.toEntity(uniqueId, admin.getName(), admin.getRole());
+        AdminEntity entity = admin.toBEntity(uniqueId, admin.getName(), admin.getRole());
         adminRepository.save(entity);
     }
 }

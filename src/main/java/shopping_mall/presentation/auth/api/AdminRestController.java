@@ -58,4 +58,9 @@ public class AdminRestController {
     public void createAdmin(@RequestBody  AdminReq.Create admin) {
         adminService.createAdmin(admin.toModel());
     }
+    @PostMapping("/seller/approve/{id}")
+    public void approve(@PathVariable Long id, HttpServletResponse response) {
+        System.out.println(id);
+    }
+
 }

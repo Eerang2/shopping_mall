@@ -44,17 +44,13 @@ public class Admin {
     public AdminEntity toEntity() {
         return AdminEntity.builder()
                 .key(key)
-                .id(id)
-                .name(name)
                 .password(password)
-                .role(role)
                 .status(ApprovalStatus.APPROVED)
-                .createdAt(createdAt)
                 .passwordSetAt(passwordSetAt)
                 .build();
     }
 
-    public AdminEntity toEntity(String id, String name, Role role) {
+    public AdminEntity toBEntity(String id, String name, Role role) {
         return AdminEntity.builder()
                 .id(id)
                 .name(name)
