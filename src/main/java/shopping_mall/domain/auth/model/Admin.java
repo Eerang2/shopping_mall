@@ -25,32 +25,12 @@ public class Admin {
     private LocalDateTime createdAt;
     private LocalDateTime passwordSetAt;
 
-    public static Admin of(Long key, String id, String password) {
-        return new Admin(key, id, password, Role.ADMIN);
-    }
-
-    public Admin(Long key, String id, String password, Role role) {
-        this.key = key;
-        this.id = id;
-        this.password = password;
-        this.role = role;
-    }
-
     public Admin(String id, Role role) {
         this.id = id;
         this.role = role;
     }
 
-    public AdminEntity toEntity() {
-        return AdminEntity.builder()
-                .key(key)
-                .password(password)
-                .status(ApprovalStatus.APPROVED)
-                .passwordSetAt(passwordSetAt)
-                .build();
-    }
-
-    public AdminEntity toBEntity(String id, String name, Role role) {
+    public AdminEntity toEntity(String id, String name, Role role) {
         return AdminEntity.builder()
                 .id(id)
                 .name(name)

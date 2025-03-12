@@ -48,4 +48,11 @@ public class AdminEntity {
 
     @LastModifiedDate
     private LocalDateTime passwordSetAt;  // 비밀번호 생성일
+
+    public void updatePassword(Long key, String encodedPassword) {
+        this.key = key;
+        this.password = encodedPassword;
+        this.passwordSetAt = LocalDateTime.now();
+        this.status = ApprovalStatus.APPROVED;
+    }
 }

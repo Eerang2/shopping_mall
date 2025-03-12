@@ -45,10 +45,9 @@ public class AdminServiceImpl implements AuthService<Admin> {
         }
         // 암호화
         String encodingPassword = passwordEncoder.encode(admin.getPassword());
-        // 기본 enum 세팅
-        Admin createAdmin = Admin.of(adminEntity.getKey(), admin.getId(), encodingPassword);
-        // 저장
-        adminRepository.save(createAdmin.toEntity());
+
+        // update 될 내용
+        adminEntity.updatePassword(adminEntity.getKey(), encodingPassword);
     }
 
     @Override
@@ -73,7 +72,7 @@ public class AdminServiceImpl implements AuthService<Admin> {
     @Transactional
     public void createAdmin(Admin admin) {
         String uniqueId = uniqueIdGenerator.generateUniqueId();
-        AdminEntity entity = admin.toBEntity(uniqueId, admin.getName(), admin.getRole());
+        AdminEntity entity = admin.toEntity(uniqueId, admin.getName(), admin.getRole());
         adminRepository.save(entity);
     }
 }
