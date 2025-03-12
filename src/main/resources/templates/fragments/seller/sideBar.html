@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/admin/index.css"> <!-- 외부 CSS 파일 -->
+    <!-- sideBar.html -->
+    <title></title>
+    <div th:fragment="sidebar" class="sidebar">
+        <!-- 역할 (role) 표시 -->
+        <div class="role">
+            <p>Role: SELLER</p>
+        </div>
+
+        <!-- 상품 관련 메뉴 (드롭다운) -->
+        <a href="#" class="dropdown-toggle">상품</a>
+        <div class="dropdown">
+            <a href="/seller/product/create">등록</a>
+            <a href="policy-create.html">정책 관리</a>
+            <a href="discount-create.html">할인 관리</a>
+        </div>
+        <a href="/admin/mypage" >마이페이지</a>
+    </div>
+</head>
+</html>

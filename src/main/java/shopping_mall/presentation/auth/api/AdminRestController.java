@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shopping_mall.application.auth.service.impl.AdminServiceImpl;
+import shopping_mall.application.auth.service.impl.SellerServiceImpl;
 import shopping_mall.infrastructure.util.CookieUtil;
 import shopping_mall.presentation.auth.dto.AdminReq;
 
@@ -21,6 +22,7 @@ import java.util.Map;
 public class AdminRestController {
 
     private final AdminServiceImpl adminService;
+    private final SellerServiceImpl sellerService;
 
     @GetMapping("/check-id")
     public ResponseEntity<Map<String, Boolean>> checkId(@RequestParam String adminId) {
@@ -59,8 +61,10 @@ public class AdminRestController {
         adminService.createAdmin(admin.toModel());
     }
     @PostMapping("/seller/approve/{id}")
-    public void approve(@PathVariable Long id, HttpServletResponse response) {
-        System.out.println(id);
+    public String approve(@PathVariable String id) {
+        sellerService.approveSeller(id);
+        return "redirect:/admin/index";
+
     }
 
 }

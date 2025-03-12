@@ -1,10 +1,7 @@
 package shopping_mall.domain.auth.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import shopping_mall.domain.auth.enums.ApprovalStatus;
@@ -15,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "SELLER")
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

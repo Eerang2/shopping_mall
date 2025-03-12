@@ -31,7 +31,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/register", "/api/admin/login", "/api/admin/check-id").permitAll()
                         .requestMatchers("/admin/register", "/admin/login").permitAll()
                         .requestMatchers("/logout").permitAll()
-                        .requestMatchers("/api/admin/**", "admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**", "/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/seller/**", "/seller/**").hasRole("SELLER")
                         .anyRequest().permitAll() // 모든 요청 허용
                 )
                 .addFilterBefore(jwtAuthenticationFilter , UsernamePasswordAuthenticationFilter.class) // JWT 인증 필터 추가

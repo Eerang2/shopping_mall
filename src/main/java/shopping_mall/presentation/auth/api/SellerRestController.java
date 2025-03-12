@@ -6,10 +6,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import shopping_mall.application.auth.service.impl.FileUploadService;
 import shopping_mall.application.auth.service.impl.SellerServiceImpl;
 import shopping_mall.infrastructure.util.CookieUtil;
 import shopping_mall.presentation.auth.dto.SellerReq;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,10 +23,11 @@ import java.util.Map;
 public class SellerRestController {
 
     private final SellerServiceImpl sellerService;
+    private final FileUploadService fileUploadService;
 
     @GetMapping("/check-id")
-    public ResponseEntity<Map<String, Boolean>> checkId(@RequestParam String userId) {
-        boolean isAvailable = sellerService.checkId(userId);
+    public ResponseEntity<Map<String, Boolean>> checkId(@RequestParam String sellerId) {
+        boolean isAvailable = sellerService.checkId(sellerId);
 
         Map<String, Boolean> response = new HashMap<>();
         response.put("available", isAvailable);
@@ -40,16 +44,39 @@ public class SellerRestController {
     }
 
     @PostMapping("/login")
-    public void login(@RequestBody @Valid SellerReq.Login seller,
+    public ResponseEntity<String> login(@RequestBody @Valid SellerReq.Login seller,
                       HttpServletResponse response) {
 
         String token = sellerService.login(seller.toModel());
+        System.out.println(token);
         response.addCookie(CookieUtil.createJwtCookie(token));
+        return ResponseEntity.ok("login");
     }
 
     @PostMapping("/logout")
     public void logout(@CookieValue(value = "JWT_TOKEN", required = false) final String token,
                        HttpServletResponse response) {
         response.addCookie(CookieUtil.deleteJwtCookie(token));
+    }
+
+    @PostMapping("/image-process")
+    public ResponseEntity<?> imageProcess(@RequestParam("image") MultipartFile image) throws IOException {
+        log.info("image name: {}", image.getOriginalFilename());
+        // 이미지 이름 암호화
+        String uniqueImageName = fileUploadService.uploadImage(image);
+
+        // 이미지 response
+        Map<String, String> response = new HashMap<>();
+        response.put("processedImage", uniqueImageName);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/save-product")
+    public void productCreate(@RequestBody SellerReq.Product product) {
+        // 저장
+        log.info("product name: {}", product.getProductName());
+        log.info("product price: {}", product.getPrice());
+        log.info("product image name: {}", product.getImage());
+
     }
 }

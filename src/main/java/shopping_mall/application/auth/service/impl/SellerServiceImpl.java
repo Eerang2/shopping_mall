@@ -75,4 +75,10 @@ public class SellerServiceImpl implements AuthService<Seller> {
     public List<SellerEntity> findAll() {
         return sellerRepository.findAllByStatus(ApprovalStatus.PENDING);
     }
+
+    @Transactional
+    public void approveSeller(String sellerId) {
+        SellerEntity sellerEntity = sellerRepository.findById(sellerId).orElseThrow(RuntimeException::new);
+        sellerEntity.setStatus(ApprovalStatus.APPROVED);
+    }
 }

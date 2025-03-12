@@ -35,6 +35,9 @@ public class ProductEntity {
     @Column(nullable = false)
     private ProductStatus status;
 
+    @Column(nullable = false)
+    private String uniqueImagePath;
+
     @Column(name = "discount_key")
     private Long discountKey;    // 할인 정책 pk
 

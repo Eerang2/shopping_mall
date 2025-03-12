@@ -4,7 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 import shopping_mall.domain.auth.model.Seller;
+
+import java.math.BigDecimal;
 
 @Getter
 public class SellerReq {
@@ -50,5 +53,15 @@ public class SellerReq {
                     .password(password)
                     .build();
         }
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Product {
+        private String productName;
+        private int price;
+        private String image;
     }
 }

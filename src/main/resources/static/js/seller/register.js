@@ -50,10 +50,12 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            url: "/api/check-id",
-            data: { username: sellerId },
+            url: "/api/seller/check-id",
+            data: { sellerId: sellerId },
             success: function (response) {
-                if (response.available) {
+                console.log(response)
+                console.log(response.available)
+                if (!response.available) {
                     $("#usernameCheckResult").text("사용 가능한 아이디입니다.").css("color", "green");
                     isUsernameAvailable = true;
                 } else {
