@@ -72,9 +72,9 @@ public class SellerRestController {
     }
 
     @PostMapping("/save-product")
-    public void productCreate(@RequestBody SellerReq.Product product,
+    public void productCreate(@RequestBody SellerReq.ProductDto product,
                               @AuthUserKey Long key) {
-        System.out.println(key);
+        sellerService.createProduct(key, product.toModel());
 
         // 저장
         log.info("product name: {}", product.getProductName());

@@ -12,6 +12,7 @@ import shopping_mall.domain.auth.enums.ApprovalStatus;
 import shopping_mall.domain.auth.enums.Role;
 import shopping_mall.domain.auth.exception.login.LoginValidException;
 import shopping_mall.domain.auth.exception.login.NotApproveSellerException;
+import shopping_mall.domain.auth.model.Product;
 import shopping_mall.domain.auth.model.Seller;
 import shopping_mall.infrastructure.auth.repository.ProductRepository;
 import shopping_mall.infrastructure.auth.repository.SellerRepository;
@@ -86,6 +87,7 @@ public class SellerServiceImpl implements AuthService<Seller> {
     }
 
     @Transactional
-    public void createProduct(String productId) {
+    public void createProduct(Long productId, Product product) {
+
     }
 }

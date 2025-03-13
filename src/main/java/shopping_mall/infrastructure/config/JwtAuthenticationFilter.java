@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String token = getJwtFromRequest(request); // 쿠키에서 JWT 가져오기
-        Long key = extractKeyFromToken(token); // ✅ Key 추출
+        Long key = extractKeyFromToken(token); //  Key 추출
 
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             String role = extractRoleFromToken(token);
@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-            // ✅ 요청 속성에 userKey 저장 (인터셉터에서 활용 가능)
+            // 요청 속성에 userKey 저장 (인터셉터에서 활용 가능)
             request.setAttribute("key", key);
         }
 

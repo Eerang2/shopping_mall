@@ -1,11 +1,14 @@
 package shopping_mall.presentation.auth.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import shopping_mall.domain.auth.model.Product;
 import shopping_mall.domain.auth.model.Seller;
+import shopping_mall.infrastructure.util.BigDecimalDeserializer;
 
 import java.math.BigDecimal;
 
@@ -59,9 +62,19 @@ public class SellerReq {
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class Product {
+    public static class ProductDto {
         private String productName;
-        private int price;
+
+        @JsonDeserialize(using = BigDecimalDeserializer.class)
+        private BigDecimal price;
         private String image;
+
+        public Product toModel() {
+            return Product.builder()
+                    .name(productName)
+                    .price(price)
+                    .uniqueImagePath(image)
+                    .build();
+        }
     }
 }
