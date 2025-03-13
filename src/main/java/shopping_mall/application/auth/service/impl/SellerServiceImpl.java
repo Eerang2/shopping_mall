@@ -13,8 +13,10 @@ import shopping_mall.domain.auth.enums.Role;
 import shopping_mall.domain.auth.exception.login.LoginValidException;
 import shopping_mall.domain.auth.exception.login.NotApproveSellerException;
 import shopping_mall.domain.auth.model.Seller;
+import shopping_mall.infrastructure.auth.repository.ProductRepository;
 import shopping_mall.infrastructure.auth.repository.SellerRepository;
 import shopping_mall.infrastructure.util.JwtUtil;
+import shopping_mall.presentation.auth.dto.SellerReq;
 
 import java.util.List;
 
@@ -25,6 +27,7 @@ import java.util.List;
 public class SellerServiceImpl implements AuthService<Seller> {
 
     private final SellerRepository sellerRepository;
+    private final ProductRepository productRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
@@ -80,5 +83,9 @@ public class SellerServiceImpl implements AuthService<Seller> {
     public void approveSeller(String sellerId) {
         SellerEntity sellerEntity = sellerRepository.findById(sellerId).orElseThrow(RuntimeException::new);
         sellerEntity.setStatus(ApprovalStatus.APPROVED);
+    }
+
+    @Transactional
+    public void createProduct(String productId) {
     }
 }

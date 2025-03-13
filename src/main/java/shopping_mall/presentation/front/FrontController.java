@@ -43,11 +43,6 @@ public class FrontController {
         return "admin/login";
     }
 
-    @GetMapping("/admin/index")
-    public String adminIndex() {
-        return "admin/index";
-    }
-
     @GetMapping("/seller/index")
     public String sellerIndex() {
         return "seller/index";

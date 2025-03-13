@@ -29,7 +29,9 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/admin/register", "/api/admin/login", "/api/admin/check-id").permitAll()
+                        .requestMatchers("/api/seller/register", "/api/seller/login", "/api/seller/check-id").permitAll()
                         .requestMatchers("/admin/register", "/admin/login").permitAll()
+                        .requestMatchers("/seller/register", "/seller/login").permitAll()
                         .requestMatchers("/logout").permitAll()
                         .requestMatchers("/api/admin/**", "/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/seller/**", "/seller/**").hasRole("SELLER")

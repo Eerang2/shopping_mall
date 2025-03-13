@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import shopping_mall.application.auth.service.impl.FileUploadService;
 import shopping_mall.application.auth.service.impl.SellerServiceImpl;
+import shopping_mall.domain.auth.model.AuthUserKey;
 import shopping_mall.infrastructure.util.CookieUtil;
 import shopping_mall.presentation.auth.dto.SellerReq;
 
@@ -48,7 +49,6 @@ public class SellerRestController {
                       HttpServletResponse response) {
 
         String token = sellerService.login(seller.toModel());
-        System.out.println(token);
         response.addCookie(CookieUtil.createJwtCookie(token));
         return ResponseEntity.ok("login");
     }
@@ -72,7 +72,10 @@ public class SellerRestController {
     }
 
     @PostMapping("/save-product")
-    public void productCreate(@RequestBody SellerReq.Product product) {
+    public void productCreate(@RequestBody SellerReq.Product product,
+                              @AuthUserKey Long key) {
+        System.out.println(key);
+
         // 저장
         log.info("product name: {}", product.getProductName());
         log.info("product price: {}", product.getPrice());

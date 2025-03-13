@@ -8,7 +8,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +15,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -35,6 +33,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String token = getJwtFromRequest(request); // 쿠키에서 JWT 가져오기
+        Long key = extractKeyFromToken(token); // ✅ Key 추출
+
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             String role = extractRoleFromToken(token);
 
@@ -47,6 +47,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+            // ✅ 요청 속성에 userKey 저장 (인터셉터에서 활용 가능)
+            request.setAttribute("key", key);
         }
 
         chain.doFilter(request, response);
@@ -74,6 +76,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     .getBody();
 
             return claims.get("role", String.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private Long extractKeyFromToken(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))  // 시크릿 키를 동적으로 사용
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            return claims.get("key", Long.class);
         } catch (Exception e) {
             return null;
         }

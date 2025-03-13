@@ -9,6 +9,7 @@ import shopping_mall.application.auth.service.impl.SellerServiceImpl;
 import shopping_mall.domain.auth.entity.SellerEntity;
 import shopping_mall.domain.auth.enums.Role;
 import shopping_mall.domain.auth.model.Admin;
+import shopping_mall.domain.auth.model.AuthUserKey;
 
 import java.util.List;
 
@@ -19,6 +20,12 @@ public class AdminFrontController {
 
     private final SellerServiceImpl sellerService;
 
+
+    @GetMapping("/admin/index")
+    public String adminIndex(@AuthUserKey Long key) {
+        System.out.println(key);
+        return "admin/index";
+    }
     @GetMapping("/admin/create")
     public String createForm() {
         return "admin/createAdmin";
@@ -33,7 +40,6 @@ public class AdminFrontController {
     @GetMapping("/admin/approve-seller")
     public String approveForm(Model model) {
         List<SellerEntity> notApproveSellers = sellerService.findAll();
-        System.out.println(notApproveSellers.get(0).getKey());
         model.addAttribute("sellers", notApproveSellers);
         return "admin/approve-seller";
     }
