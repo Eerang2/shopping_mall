@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shopping_mall.application.auth.service.impl.UserServiceImpl;
 import shopping_mall.infrastructure.util.CookieUtil;
-import shopping_mall.presentation.auth.dto.UserReq;
+import shopping_mall.presentation.auth.api.dto.UserReq;
 
 import java.util.HashMap;
 import java.util.Map;

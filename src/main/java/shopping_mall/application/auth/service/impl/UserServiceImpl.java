@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shopping_mall.application.auth.service.dto.AuthUser;
 import shopping_mall.application.auth.service.AuthService;
 import shopping_mall.domain.auth.entity.UserEntity;
-import shopping_mall.domain.auth.exception.login.LoginValidException;
+import shopping_mall.application.auth.service.exception.LoginValidException;
 import shopping_mall.domain.auth.model.User;
 import shopping_mall.infrastructure.auth.repository.UserRepository;
 import shopping_mall.infrastructure.util.JwtUtil;

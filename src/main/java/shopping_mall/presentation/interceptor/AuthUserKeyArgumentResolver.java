@@ -6,7 +6,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import shopping_mall.domain.auth.model.AuthUserKey;
+import shopping_mall.domain.auth.annotation.AuthUserKey;
 
 public class AuthUserKeyArgumentResolver implements HandlerMethodArgumentResolver {
 

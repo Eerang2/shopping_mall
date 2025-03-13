@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import shopping_mall.domain.auth.enums.ApprovalStatus;
 import shopping_mall.domain.auth.entity.SellerEntity;
 import shopping_mall.domain.auth.enums.Role;
-import shopping_mall.domain.auth.exception.register.ValidMemberIdException;
-import shopping_mall.domain.auth.exception.register.ValidPasswordException;
+import shopping_mall.domain.auth.exception.ValidMemberIdException;
+import shopping_mall.domain.auth.exception.ValidPasswordException;
 
 import java.time.LocalDateTime;
 

@@ -1,7 +1,0 @@
-package shopping_mall.domain.auth.exception.login;
-
-public class LoginValidException extends RuntimeException {
-    public LoginValidException() {
-        super("존재하는 아이디가 없습니다.");
-    }
-}

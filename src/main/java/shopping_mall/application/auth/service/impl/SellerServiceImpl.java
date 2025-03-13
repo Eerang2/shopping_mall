@@ -10,14 +10,13 @@ import shopping_mall.application.auth.service.AuthService;
 import shopping_mall.domain.auth.entity.SellerEntity;
 import shopping_mall.domain.auth.enums.ApprovalStatus;
 import shopping_mall.domain.auth.enums.Role;
-import shopping_mall.domain.auth.exception.login.LoginValidException;
-import shopping_mall.domain.auth.exception.login.NotApproveSellerException;
-import shopping_mall.domain.auth.model.Product;
+import shopping_mall.application.auth.service.exception.LoginValidException;
+import shopping_mall.application.auth.service.exception.NotApproveSellerException;
+import shopping_mall.domain.product.model.Product;
 import shopping_mall.domain.auth.model.Seller;
 import shopping_mall.infrastructure.auth.repository.ProductRepository;
 import shopping_mall.infrastructure.auth.repository.SellerRepository;
 import shopping_mall.infrastructure.util.JwtUtil;
-import shopping_mall.presentation.auth.dto.SellerReq;
 
 import java.util.List;
 

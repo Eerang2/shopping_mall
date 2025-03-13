@@ -1,6 +1,5 @@
 package shopping_mall.presentation.auth.api;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import shopping_mall.application.auth.service.impl.AdminServiceImpl;
 import shopping_mall.application.auth.service.impl.SellerServiceImpl;
 import shopping_mall.infrastructure.util.CookieUtil;
-import shopping_mall.presentation.auth.dto.AdminReq;
+import shopping_mall.presentation.auth.api.dto.AdminReq;
 
 import java.util.HashMap;
 import java.util.Map;
