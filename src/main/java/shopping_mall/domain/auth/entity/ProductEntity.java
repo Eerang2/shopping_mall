@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import shopping_mall.domain.auth.enums.ProductStatus;
 
 import java.math.BigDecimal;
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class ProductEntity {
 
     @Id
@@ -33,6 +36,7 @@ public class ProductEntity {
     private int stock;   // 재고
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private ProductStatus status;
 
     @Column(nullable = false)
@@ -44,7 +48,8 @@ public class ProductEntity {
     @Column(nullable = false, name = "seller_key")
     private Long sellerKey;
 
-    @Column(nullable = false)
+    @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 }
 

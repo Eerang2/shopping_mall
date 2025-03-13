@@ -38,6 +38,7 @@ $(document).ready(function() {
                 const productData = {
                     productName: $("#productName").val().trim(),
                     price: $("#price").val().trim(),
+                    stock: $("#stock").val().trim(),
                     image: processedImage,
                 };
 
@@ -46,15 +47,10 @@ $(document).ready(function() {
                     url: "/api/seller/save-product", // 실제 상품 저장을 처리할 URL
                     type: "POST",
                     contentType: "application/json", // 요청 본문이 JSON 형식임을 명시
-                    dataType: "json", // 응답을 JSON 형식으로 처리
                     data: JSON.stringify(productData),
-                    success: function(saveResponse) {
-                        if (saveResponse.success) {
+                    success: function() {
                             alert("상품이 성공적으로 등록되었습니다.");
-                            // 상품 등록 후 추가적인 처리 (예: 페이지 이동, 폼 초기화 등)
-                        } else {
-                            alert("상품 등록에 실패했습니다.");
-                        }
+                            window.location.href="/seller/home"
                     },
                     error: function(err) {
                         alert("상품 등록 중 오류가 발생했습니다.");

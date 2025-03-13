@@ -61,7 +61,6 @@ public class SellerRestController {
 
     @PostMapping("/image-process")
     public ResponseEntity<?> imageProcess(@RequestParam("image") MultipartFile image) throws IOException {
-        log.info("image name: {}", image.getOriginalFilename());
         // 이미지 이름 암호화
         String uniqueImageName = fileUploadService.uploadImage(image);
 
@@ -72,14 +71,9 @@ public class SellerRestController {
     }
 
     @PostMapping("/save-product")
-    public void productCreate(@RequestBody SellerReq.ProductDto product,
+    public ResponseEntity<String> productCreate(@RequestBody SellerReq.ProductDto product,
                               @AuthUserKey Long key) {
         sellerService.createProduct(key, product.toModel());
-
-        // 저장
-        log.info("product name: {}", product.getProductName());
-        log.info("product price: {}", product.getPrice());
-        log.info("product image name: {}", product.getImage());
-
+        return ResponseEntity.ok("success");
     }
 }

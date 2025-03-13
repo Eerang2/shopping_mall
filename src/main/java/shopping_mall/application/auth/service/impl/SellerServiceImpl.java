@@ -87,7 +87,11 @@ public class SellerServiceImpl implements AuthService<Seller> {
     }
 
     @Transactional
-    public void createProduct(Long productId, Product product) {
+    public void createProduct(Long sellerKey, Product product) {
+        sellerRepository.findById(sellerKey)
+                .orElseThrow(() -> new NotApproveSellerException("권한이 없습니다."));
 
+        Product createProduct = Product.of(sellerKey, product.getName(), product.getPrice(), product.getStock(), product.getUniqueImagePath());
+        productRepository.save(createProduct.toEntity());
     }
 }

@@ -67,12 +67,14 @@ public class SellerReq {
 
         @JsonDeserialize(using = BigDecimalDeserializer.class)
         private BigDecimal price;
+        private int stock;
         private String image;
 
         public Product toModel() {
             return Product.builder()
                     .name(productName)
                     .price(price)
+                    .stock(stock)
                     .uniqueImagePath(image)
                     .build();
         }
