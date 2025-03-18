@@ -1,6 +1,7 @@
 package shopping_mall.presentation.auth.front;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -41,6 +42,17 @@ public class FrontController {
     @GetMapping("/admin/login")
     public String adminLogin() {
         return "admin/login";
+    }
+
+    @GetMapping("/payment")
+    public String payment(Model model) {
+        model.addAttribute("productName", "요즘 유행하는 티셔츠");
+        model.addAttribute("productPrice", 4000);
+        model.addAttribute("couponDiscount", 0);
+        model.addAttribute("gradeDiscount", 1000);
+        model.addAttribute("eventDiscount", 2000);
+        model.addAttribute("userGrade", "SILVER");
+        return "payment";
     }
 
     @GetMapping("/seller/index")

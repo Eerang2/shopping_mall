@@ -71,7 +71,10 @@ public class SellerServiceImpl implements AuthService<Seller> {
         }
 
         // token 생성
-        AuthUser authUser = AuthUser.of(sellerEntity.getKey(), sellerEntity.getId(), sellerEntity.getRole());
+        AuthUser authUser = AuthUser.of(sellerEntity.getKey(),
+                                            sellerEntity.getId(),
+                                            sellerEntity.getRole());
+
         return jwtUtil.createAccessToken(authUser);
     }
 

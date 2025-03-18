@@ -23,6 +23,7 @@ public class GradePolicyEntity {
     private Long key;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserGrade name;        // 등급명
 
     @Column(nullable = false)
