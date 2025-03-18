@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 결제</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+            type="text/javascript"
+            src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        .price-info, .discount-info {
+            margin-bottom: 15px;
+        }
+        .final-price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: red;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<h2>상품 결제</h2>
+
+<div class="price-info">
+    <p><strong>상품명:</strong> <span id="productName" th:text="${productName}">요즘 유행하는 티셔츠</span></p>
+    <p><strong>가격:</strong> <span id="productPrice" th:text="${productPrice}">50000</span> 원</p>
+</div>
+
+<div class="coupon-section">
+    <label for="couponSelect"><strong>쿠폰 선택:</strong></label>
+    <select id="couponSelect">
+        <option value="0">쿠폰 없음</option>
+        <option value="5000">5,000원 할인</option>
+        <option value="10000">10,000원 할인</option>
+    </select>
+</div>
+
+<div class="discount-info">
+    <p><strong>쿠폰 할인:</strong> <span id="couponDiscount" th:text="${couponDiscount}">0</span> 원</p>
+    <p><strong>등급 할인:</strong> <span id="gradeDiscount" th:text="${gradeDiscount}">1000</span> 원
+        <span style="font-size: 13px" th:text="${userGrade}" id="grade">등급</span>
+    </p>
+    <p><strong>이벤트 할인:</strong> <span id="eventDiscount" th:text="${eventDiscount}">2000</span> 원 </p>
+</div>
+
+<hr>
+
+<p class="final-price">최종 결제 금액:
+    <span id="finalPrice">0</span> 원
+</p>
+
+<button id="payButton">결제하기</button>
+
+<script src="/js/paymentPriceCalculator.js"></script>
+<script src="/js/secretPayment.js"></script>
+
+</body>
+</html>
