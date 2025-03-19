@@ -45,9 +45,10 @@ $(document).ready(function () {
             },
             function (rsp) {  // 결제 결과 처리 콜백 함수
                 if (rsp.success) {
+                    console.log(rsp.imp_uid)
                     // 결제 성공 시 서버로 결제 검증 요청
                     $.ajax({
-                        url: 'http://localhost:8080/verifyIamport/' + rsp.imp_uid,  // 검증 URL
+                        url: '/api/payment/verifyImport/' + rsp.imp_uid,  // 검증 URL
                         method: 'POST',
                         success: function (data) {
                             // 결제 금액 검증
@@ -63,6 +64,10 @@ $(document).ready(function () {
                         }
                     });
                 } else {
+                    $.ajax({
+                        url: "/api/payment/cancel/" + merchantUid,
+                        method: "DELETE"
+                    });
                     // 결제 실패 시
                     alert('결제 실패');
                 }
@@ -78,6 +83,7 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify({
                 productName: productName,
+                merchantUid: merchantUid,
                 userGrade: grade,
                 productPrice: productPrice,
                 couponDiscount: $("#couponSelect").val() || 0,
@@ -99,6 +105,7 @@ $(document).ready(function () {
                 console.error('결제 검증 중 오류 발생:', error);
                 alert("결제 검증 중 오류 발생");
             }
+
         });
     });
 });

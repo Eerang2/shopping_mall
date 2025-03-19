@@ -46,7 +46,7 @@ public class FrontController {
 
     @GetMapping("/payment")
     public String payment(Model model) {
-        model.addAttribute("productName", "요즘 유행하는 티셔츠");
+        model.addAttribute("productName", "딸기 스무디");
         model.addAttribute("productPrice", 4000);
         model.addAttribute("couponDiscount", 0);
         model.addAttribute("gradeDiscount", 1000);

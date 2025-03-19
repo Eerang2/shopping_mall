@@ -2,6 +2,7 @@ package shopping_mall.presentation.payment.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
+import shopping_mall.domain.auth.enums.UserGrade;
 import shopping_mall.infrastructure.config.jakson.BigDecimalDeserializer;
 
 import java.math.BigDecimal;
@@ -18,10 +19,12 @@ public class PaymentReq {
     @JsonDeserialize(using = BigDecimalDeserializer.class)
     private BigDecimal productPrice;
 
+    private String merchantUid;
+
     @JsonDeserialize(using = BigDecimalDeserializer.class)
     private BigDecimal couponDiscount;
 
-    private String userGrade;
+    private UserGrade userGrade;
 
     @JsonDeserialize(using = BigDecimalDeserializer.class)
     private BigDecimal gradeDiscount;
