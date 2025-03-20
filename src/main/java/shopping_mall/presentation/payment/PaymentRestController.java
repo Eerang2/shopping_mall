@@ -1,6 +1,9 @@
 package shopping_mall.presentation.payment;
 
+import com.siot.IamportRestClient.exception.IamportResponseException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -9,11 +12,15 @@ import shopping_mall.domain.auth.annotation.AuthUserKey;
 import shopping_mall.presentation.payment.dto.PaymentReq;
 import shopping_mall.presentation.payment.dto.PaymentRes;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/api/payment")
 @RequiredArgsConstructor
 public class PaymentRestController {
 
+    private static final Logger log = LoggerFactory.getLogger(PaymentRestController.class);
     private final PaymentService paymentService;
 
 
@@ -47,9 +54,13 @@ public class PaymentRestController {
     }
 
     @PostMapping("/verifyImport/{impUid}")
-    public void verifyImport(@PathVariable("impUid") String impUid, @AuthUserKey Long key) {
-        System.out.println(impUid);
+    public ResponseEntity<BigDecimal> paymentByImpUid(@PathVariable(value = "impUid") String impUid) throws IamportResponseException, IOException {
+        BigDecimal amount = paymentService.verifyPayment(impUid);
+        if (amount == null) {
+            log.error("검증 실패");
+        }
 
+        return ResponseEntity.ok(amount);
     }
 
 

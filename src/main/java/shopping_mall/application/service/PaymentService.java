@@ -1,5 +1,8 @@
 package shopping_mall.application.service;
 
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,6 +17,7 @@ import shopping_mall.infrastructure.auth.repository.ProductRepository;
 import shopping_mall.infrastructure.auth.repository.impl.UserGradeQueryRepositoryImpl;
 import shopping_mall.presentation.payment.dto.PaymentReq;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -26,13 +30,17 @@ public class PaymentService {
     private final UserGradeQueryRepositoryImpl gradeQueryRepository;
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final ImapotClient imapotClient;
 
 
     public String checkUser(Long key, BigDecimal gradeDiscountPrice) {
 
         UserWithGradeDto userWithGrade = gradeQueryRepository.findUserWithGrade(key)
                 .orElseThrow(RuntimeException::new);
-        validateGrade(userWithGrade, gradeDiscountPrice);
+
+        if (userWithGrade.getGradeDiscountPrice().compareTo(gradeDiscountPrice) != 0) {
+            throw new IllegalArgumentException("등급에 맞지않은 할인입니다.");
+        }
 
         return userWithGrade.getId();
     }
@@ -49,11 +57,8 @@ public class PaymentService {
 
     @Transactional
     public void saveOrder(PaymentReq req, Long userKey) {
-        System.out.println("me : " + req.getMerchantUid());
         ProductEntity product = productRepository.findByName(req.getProductName())
                 .orElseThrow(() -> new RuntimeException("일치한 상품이 없습니다."));
-        System.out.println("product: " + product.getName());
-        System.out.println("product key : " + product.getKey());
 
         OrderEntity entity = OrderEntity.builder()
                 .merchantUid(req.getMerchantUid())
@@ -73,11 +78,18 @@ public class PaymentService {
         log.info("delete count : {}", deletedCount);
     }
 
-    private void validateGrade(UserWithGradeDto userWithGrade, BigDecimal gradeDiscountPrice) {
-        System.out.println("validateGrade");
-        // 등급별 할인율 확인
-        if (userWithGrade.getGradeDiscountPrice().compareTo(gradeDiscountPrice) != 0){
-            throw new IllegalArgumentException("등급에 맞지않은 할인입니다.");
+    @Transactional
+    public BigDecimal verifyPayment(String impUid) throws IamportResponseException, IOException {
+        // impUid로 결제 검증을 요청하고 응답을 받음
+        IamportResponse<Payment> response = imapotClient.verifyPayment(impUid);
+
+        // 응답 코드가 "00"이면 결제 검증이 성공한 것
+        if (response.getCode() == 0) {
+            // 검증 성공 시 주문 상태 업데이트
+            orderRepository.updateStateApprove(response.getResponse().getMerchantUid(), ApprovalStatus.APPROVED);
+            return response.getResponse().getAmount();
+        } else {
+            return null;
         }
     }
 

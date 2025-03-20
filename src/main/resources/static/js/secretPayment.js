@@ -44,15 +44,18 @@ $(document).ready(function () {
                 buyer_name: res.userName,  // 구매자 이름
             },
             function (rsp) {  // 결제 결과 처리 콜백 함수
+                const impUid = rsp.imp_uid;  // impUid는 결제 후 반환된 고유 아이디입니다.
+
                 if (rsp.success) {
-                    console.log(rsp.imp_uid)
                     // 결제 성공 시 서버로 결제 검증 요청
                     $.ajax({
-                        url: '/api/payment/verifyImport/' + rsp.imp_uid,  // 검증 URL
+                        url: '/api/payment/verifyImport/' + impUid,
                         method: 'POST',
-                        success: function (data) {
+                        success: function (res) {
+                            const amount = res;
+                            console.log(res)
                             // 결제 금액 검증
-                            if (rsp.paid_amount === data.response.amount) {
+                            if (finalPrice === amount) {
                                 alert('결제 성공');
                             } else {
                                 alert('결제 실패');
@@ -109,7 +112,6 @@ $(document).ready(function () {
         });
     });
 });
-
 
 
 function generateMerchantUID() {

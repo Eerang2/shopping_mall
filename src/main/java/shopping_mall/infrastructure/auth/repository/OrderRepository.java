@@ -22,4 +22,8 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     @Modifying
     @Query("DELETE FROM OrderEntity o WHERE o.merchantUid = :merchantUid")
     int deleteByMerchantUid(@Param("merchantUid") String merchantUid);
+
+    @Modifying
+    @Query("UPDATE OrderEntity o SET o.status = :approvalStatus WHERE o.merchantUid = :merchantUid")
+    void updateStateApprove(@Param("merchantUid") String merchantUid, @Param("approvalStatus") ApprovalStatus approvalStatus);
 }
