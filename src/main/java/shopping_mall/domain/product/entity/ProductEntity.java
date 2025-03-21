@@ -33,9 +33,6 @@ public class ProductEntity {
     private BigDecimal price;
 
     @Column(nullable = false)
-    private int stock;   // 재고
-
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
 

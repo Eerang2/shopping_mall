@@ -32,7 +32,6 @@ public class PaymentService {
     private final ProductRepository productRepository;
     private final ImapotClient imapotClient;
 
-
     public String checkUser(Long key, BigDecimal gradeDiscountPrice) {
 
         UserWithGradeDto userWithGrade = gradeQueryRepository.findUserWithGrade(key)
