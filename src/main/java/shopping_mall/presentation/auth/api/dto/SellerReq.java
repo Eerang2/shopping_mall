@@ -5,8 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shopping_mall.domain.product.model.Product;
 import shopping_mall.domain.auth.model.Seller;
+import shopping_mall.domain.product.model.Product;
+import shopping_mall.domain.product.model.Stock;
 import shopping_mall.infrastructure.config.jakson.BigDecimalDeserializer;
 
 import java.math.BigDecimal;
@@ -69,12 +70,17 @@ public class SellerReq {
         private int stock;
         private String image;
 
-        public Product toModel() {
+        public Product toProduct() {
             return Product.builder()
                     .name(productName)
                     .price(price)
-                    .stock(stock)
                     .uniqueImagePath(image)
+                    .build();
+        }
+
+        public Stock toStock() {
+            return Stock.builder()
+                    .quantity(stock)
                     .build();
         }
     }
