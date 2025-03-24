@@ -39,8 +39,16 @@ public class Product {
                 .build();
     }
 
-    public Product from(ProductEntity productEntity) {
-        return Product.builder().build();
+    public static Product from(ProductEntity productEntity) {
+        return Product.builder()
+                .key(productEntity.getKey())
+                .name(productEntity.getName())
+                .price(productEntity.getPrice())
+                .status(productEntity.getStatus())
+                .uniqueImagePath(productEntity.getUniqueImagePath())
+                .sellerKey(productEntity.getSellerKey())
+                .createdAt(productEntity.getCreatedAt())
+                .build();
     }
 
     public Product(String name, BigDecimal price, ProductStatus status, String uniqueImagePath, Long sellerKey) {
