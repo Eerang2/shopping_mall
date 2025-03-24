@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import shopping_mall.application.service.ProductService;
+import shopping_mall.domain.product.model.Product;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,7 +18,8 @@ public class PaymentController {
     public String payment(@PathVariable("productId") Long productId,
                           Model model) {
 
-        productService.findProductById(productId);
+        Product productById = productService.findProductById(productId);
+        model.addAttribute("product", productById);
 
         return "payment";
     }

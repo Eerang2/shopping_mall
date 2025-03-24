@@ -43,8 +43,9 @@
 <h2>상품 결제</h2>
 
 <div class="price-info">
-    <p><strong>상품명:</strong> <span id="productName" th:text="${productName}">요즘 유행하는 티셔츠</span></p>
-    <p><strong>가격:</strong> <span id="productPrice" th:text="${productPrice}">50000</span> 원</p>
+    <p><strong>상품명:</strong> <span id="productName" th:text="${product.name}">요즘 유행하는 티셔츠</span></p>
+    <p><strong>가격:</strong> <span id="productPrice"
+                                  th:text="${#numbers.formatDecimal(product.price, 0, 0)}">50000</span> 원</p>
 </div>
 
 <div class="coupon-section">

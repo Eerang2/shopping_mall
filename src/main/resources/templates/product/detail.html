@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>상품 상세 정보</title>
     <style>
         .product-container {
@@ -39,7 +41,7 @@
 <div class="product-container">
     <h2 th:text="${product.name}">상품 이름</h2>
     <img th:src="@{${'/images/' +product.uniqueImagePath}}" class="product-image" alt="상품 이미지">
-    <p>가격: <span th:text="${#numbers.formatDecimal(product.price, 0, 2)}">0</span> 원</p>
+    <p>가격: <span th:text="${#numbers.formatDecimal(product.price, 0, 0)}">0</span> 원</p>
 
     <p class="status"
        th:classappend="${product.status == T(shopping_mall.domain.auth.enums.ProductStatus).SELLING ? 'status-selling' :

@@ -4,13 +4,43 @@ function addToCart(productId) {
     let item = cart.find(item => item.productId === productId);
 
     if (item) {
-        item.quantity += 1;
+        item.quantity += 1; // 이미 장바구니에 있으면 수량을 1 증가
     } else {
-        cart.push({productId, quantity: 1});
+        item = {productId, quantity: 1}; // 새 상품 추가
+        cart.push(item);
     }
 
+    // LocalStorage에 장바구니 업데이트
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert("장바구니에 추가되었습니다! ✅");
+
+    // 쿠키에서 JWT 토큰 가져오기
+    const token = getCookie("JWT_TOKEN");
+
+    const formData = {
+        productId: productId,
+        quantity: item.quantity
+    };
+
+    if (token) {
+        console.log(item.quantity)
+        // 로그인 상태에서만 DB에 저장
+        $.ajax({
+            type: "POST",
+            url: "/api/product/cart",
+            contentType: "application/json",
+            data: JSON.stringify(formData),
+            success: function (response) {
+                alert("장바구니에 추가되었습니다! ✅");
+                console.log("DB 저장완료");
+            },
+            error: function (xhr) {
+                let errorMsg = xhr.responseJSON?.message || "장바구니 저장에 실패했습니다.";
+                alert(errorMsg);
+            }
+        });
+    } else {
+        alert("장바구니에 추가되었습니다! ✅"); // 비로그인 상태에서는 LocalStorage에만 저장
+    }
 }
 
 // 💳 바로 구매 (로그인 여부 확인 후 이동)
