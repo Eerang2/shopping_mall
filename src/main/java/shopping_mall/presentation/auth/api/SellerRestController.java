@@ -7,10 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import shopping_mall.application.service.FileUploadService;
 import shopping_mall.application.auth.service.impl.SellerServiceImpl;
-import shopping_mall.domain.auth.annotation.AuthUserKey;
+import shopping_mall.application.service.FileUploadService;
 import shopping_mall.infrastructure.util.CookieUtil;
+import shopping_mall.presentation.auth.annotation.AuthUserKey;
 import shopping_mall.presentation.auth.api.dto.SellerReq;
 
 import java.io.IOException;
@@ -54,9 +54,13 @@ public class SellerRestController {
     }
 
     @PostMapping("/logout")
-    public void logout(@CookieValue(value = "JWT_TOKEN", required = false) final String token,
+    public ResponseEntity<String> logout(@CookieValue(value = "JWT_TOKEN", required = false) final String token,
                        HttpServletResponse response) {
+        // 서버 세션 무효화
         response.addCookie(CookieUtil.deleteJwtCookie(token));
+
+        // 클라이언트 저장소(localStorage 등) 초기화 권장
+        return ResponseEntity.ok("로그아웃 되었습니다. 클라이언트 저장소도 초기화해주세요.");
     }
 
     @PostMapping("/image-process")
@@ -73,7 +77,8 @@ public class SellerRestController {
     @PostMapping("/save-product")
     public ResponseEntity<String> productCreate(@RequestBody SellerReq.ProductDto product,
                               @AuthUserKey Long key) {
-        sellerService.createProduct(key, product.toModel());
+
+        sellerService.createProduct(key, product.toProduct(), product.toStock());
         return ResponseEntity.ok("success");
     }
 }

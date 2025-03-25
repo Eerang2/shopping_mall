@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>상품 상세 정보</title>
+    <style>
+        .product-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .product-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .status-selling {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-out-of-stock {
+            color: red;
+            font-weight: bold;
+        }
+
+        .status-nearly-out-of-stock {
+            color: orange;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="product-container">
+    <h2 th:text="${product.name}">상품 이름</h2>
+    <img th:src="@{${'/images/' +product.uniqueImagePath}}" class="product-image" alt="상품 이미지">
+    <p>가격: <span th:text="${#numbers.formatDecimal(product.price, 0, 0)}">0</span> 원</p>
+
+    <p class="status"
+       th:classappend="${product.status == T(shopping_mall.domain.auth.enums.ProductStatus).SELLING ? 'status-selling' :
+                           (product.status == T(shopping_mall.domain.auth.enums.ProductStatus).OUT_OF_STOCK ? 'status-out-of-stock' :
+                           'status-nearly-out-of-stock')}"
+       th:text="${product.status.description}">판매 상태</p>
+
+    <p>등록일: <span th:text="${#temporals.format(product.createdAt, 'yyyy-MM-dd HH:mm:ss')}">2024-03-20</span></p>
+    <button th:onclick="|addToCart('${product.key}')|">🛒 장바구니 담기</button>
+    <button th:onclick="|buyNow('${product.key}')|">💳 바로 구매</button>
+
+
+    <a href="/products" style="display:block; margin-top:20px;">상품 목록으로 돌아가기</a>
+</div>
+</body>
+<script src="/js/product/detail.js"></script>
+</html>

@@ -47,4 +47,6 @@ public class FrontController {
     public String sellerIndex() {
         return "seller/index";
     }
+
+
 }

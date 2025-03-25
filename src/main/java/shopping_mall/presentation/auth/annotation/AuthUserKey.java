@@ -1,4 +1,4 @@
-package shopping_mall.domain.auth.annotation;
+package shopping_mall.presentation.auth.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
