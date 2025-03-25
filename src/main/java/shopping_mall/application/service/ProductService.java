@@ -9,9 +9,11 @@ import shopping_mall.domain.product.model.Cart;
 import shopping_mall.domain.product.model.Product;
 import shopping_mall.infrastructure.auth.repository.CartRepository;
 import shopping_mall.infrastructure.auth.repository.ProductRepository;
+import shopping_mall.presentation.auth.front.user.api.dto.CartRes;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +43,12 @@ public class ProductService {
         } else {
             cartRepository.save(cart.toEntity());
         }
+    }
+
+    public List<CartRes> getProductsByIds(List<Long> productIds) {
+        List<ProductEntity> products = productRepository.findByKeyIn(productIds);
+        return products.stream()
+                .map(p -> new CartRes(p.getKey(), p.getName(), p.getUniqueImagePath(), p.getPrice()))
+                .collect(Collectors.toList());
     }
 }

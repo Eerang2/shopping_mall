@@ -62,7 +62,10 @@
     <p><strong>등급 할인:</strong> <span id="gradeDiscount" th:text="${gradeDiscount}">1000</span> 원
         <span style="font-size: 13px" th:text="${userGrade}" id="grade">등급</span>
     </p>
-    <p><strong>이벤트 할인:</strong> <span id="eventDiscount" th:text="${eventDiscount}">2000</span> 원 </p>
+    <p th:if="${eventDiscount != null}">
+        <strong>이벤트 할인:</strong> <span id="eventDiscount" th:text="${eventDiscount}">2000</span> 원
+    </p>
+
 </div>
 
 <hr>

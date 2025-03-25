@@ -32,4 +32,9 @@ public class ProductController {
         model.addAttribute("product", products);
         return "/product/detail";
     }
+
+    @GetMapping("/cart")
+    public String cart() {
+        return "/product/cart";
+    }
 }
