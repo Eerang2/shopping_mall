@@ -3,6 +3,7 @@ package shopping_mall.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shopping_mall.application.service.dto.ProductWithQuantity;
 import shopping_mall.domain.product.entity.CartEntity;
 import shopping_mall.domain.product.entity.ProductEntity;
 import shopping_mall.domain.product.model.Cart;
@@ -10,8 +11,10 @@ import shopping_mall.domain.product.model.Product;
 import shopping_mall.infrastructure.auth.repository.CartRepository;
 import shopping_mall.infrastructure.auth.repository.ProductRepository;
 import shopping_mall.presentation.auth.front.user.api.dto.CartRes;
+import shopping_mall.presentation.payment.dto.PaymentReq;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,30 @@ public class ProductService {
         return productRepository.findAll().stream()
                 .map(Product::from)
                 .toList();
+    }
+
+    public List<ProductWithQuantity> findAllByProducts(List<PaymentReq.CartItem> cartProducts) {
+        List<Long> productIds = cartProducts.stream()
+                .map(PaymentReq.CartItem::getProductId)
+                .collect(Collectors.toList());
+
+        List<ProductEntity> products = productRepository.findAllById(productIds);
+
+        // 상품 ID별 수량 매핑
+        Map<Long, Integer> quantityMap = cartProducts.stream()
+                .collect(Collectors.toMap(
+                        PaymentReq.CartItem::getProductId,
+                        PaymentReq.CartItem::getQuantity
+                ));
+
+        // Entity -> ProductWithQuantity 변환
+        return products.stream()
+                .map(entity -> {
+                    Product product = Product.from(entity);
+                    int quantity = quantityMap.getOrDefault(entity.getKey(), 0);
+                    return new ProductWithQuantity(product, quantity);
+                })
+                .collect(Collectors.toList());
     }
 
     public Product findProductById(Long productId) {
@@ -51,4 +78,5 @@ public class ProductService {
                 .map(p -> new CartRes(p.getKey(), p.getName(), p.getUniqueImagePath(), p.getPrice()))
                 .collect(Collectors.toList());
     }
+
 }

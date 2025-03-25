@@ -1,4 +1,4 @@
-package shopping_mall.application.service;
+package shopping_mall.application.payment.impl;
 
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shopping_mall.application.payment.PaymentService;
+import shopping_mall.application.service.ImapotClient;
 import shopping_mall.application.service.dto.UserWithGradeDto;
 import shopping_mall.domain.auth.enums.ApprovalStatus;
 import shopping_mall.domain.product.entity.OrderEntity;
@@ -25,13 +27,14 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PaymentService {
+public class SinglePaymentServiceImpl implements PaymentService<PaymentReq.Single> {
 
     private final UserGradeQueryRepositoryImpl gradeQueryRepository;
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final ImapotClient imapotClient;
 
+    @Override
     public String checkUser(Long key, BigDecimal gradeDiscountPrice) {
 
         UserWithGradeDto userWithGrade = gradeQueryRepository.findUserWithGrade(key)
@@ -44,7 +47,8 @@ public class PaymentService {
         return userWithGrade.getId();
     }
 
-    public void checkPrice(PaymentReq prices) {
+    @Override
+    public void checkPrice(PaymentReq.Single prices) {
 
         // final price 를 제외한 나머지 값의 차
         BigDecimal result = calcPrice(prices);
@@ -54,8 +58,9 @@ public class PaymentService {
         }
     }
 
+    @Override
     @Transactional
-    public void saveOrder(PaymentReq req, Long userKey) {
+    public void saveOrder(PaymentReq.Single req, Long userKey) {
         ProductEntity product = productRepository.findByName(req.getProductName())
                 .orElseThrow(() -> new RuntimeException("일치한 상품이 없습니다."));
 
@@ -77,6 +82,7 @@ public class PaymentService {
         log.info("delete count : {}", deletedCount);
     }
 
+    @Override
     @Transactional
     public BigDecimal verifyPayment(String impUid) throws IamportResponseException, IOException {
         // impUid로 결제 검증을 요청하고 응답을 받음
@@ -96,7 +102,7 @@ public class PaymentService {
         return orderRepository.deleteByMerchantUid(merchantUid);
     }
 
-    private BigDecimal calcPrice(PaymentReq prices) {
+    private BigDecimal calcPrice(PaymentReq.Single prices) {
         return prices.getProductPrice()
                 .subtract(prices.getCouponDiscount())
                 .subtract(prices.getEventDiscount())

@@ -102,7 +102,16 @@ function checkout() {
     }
 
     localStorage.setItem("selectedCart", JSON.stringify(selectedItems));
-    window.location.href = "/checkout";
+    if (selectedItems.length === 0) {
+        alert("결제할 상품을 선택하세요.");
+        return;
+    }
+    console.log(selectedItems)
+
+    // ✅ 선택된 상품 ID, 수량을 GET 요청으로 전달 (쿼리 파라미터)
+    let queryString = selectedItems.map(item => `products=${item.productId},${item.quantity}`.replace(/\s/g, "")) // 공백 제거
+        .join("&");
+    window.location.href = `/payment/cart?${queryString}`;
 }
 
 function getCookie(name) {

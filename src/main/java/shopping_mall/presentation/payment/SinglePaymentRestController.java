@@ -2,13 +2,12 @@ package shopping_mall.presentation.payment;
 
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import shopping_mall.application.service.PaymentService;
-import shopping_mall.domain.auth.annotation.AuthUserKey;
+import shopping_mall.application.payment.impl.SinglePaymentServiceImpl;
+import shopping_mall.presentation.auth.annotation.AuthUserKey;
 import shopping_mall.presentation.payment.dto.PaymentReq;
 import shopping_mall.presentation.payment.dto.PaymentRes;
 
@@ -18,15 +17,15 @@ import java.math.BigDecimal;
 @RestController
 @RequestMapping("/api/payment")
 @RequiredArgsConstructor
-public class PaymentRestController {
+@Slf4j
+public class SinglePaymentRestController {
 
-    private static final Logger log = LoggerFactory.getLogger(PaymentRestController.class);
-    private final PaymentService paymentService;
+    private final SinglePaymentServiceImpl paymentService;
 
 
 
     @PostMapping("/check")
-    public ResponseEntity<PaymentRes> checkPayment(@RequestBody PaymentReq paymentReq,
+    public ResponseEntity<PaymentRes> checkPayment(@RequestBody PaymentReq.Single paymentReq,
                                                  @AuthUserKey Long key) {
         if (key == null) {
             throw new IllegalArgumentException("로그인을 이후 사용할 수 있습니다.");
@@ -62,6 +61,5 @@ public class PaymentRestController {
 
         return ResponseEntity.ok(amount);
     }
-
 
 }

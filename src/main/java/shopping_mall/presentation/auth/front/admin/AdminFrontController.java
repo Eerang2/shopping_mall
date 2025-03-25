@@ -9,7 +9,7 @@ import shopping_mall.application.auth.service.impl.SellerServiceImpl;
 import shopping_mall.domain.auth.entity.SellerEntity;
 import shopping_mall.domain.auth.enums.Role;
 import shopping_mall.domain.auth.model.Admin;
-import shopping_mall.domain.auth.annotation.AuthUserKey;
+import shopping_mall.presentation.auth.annotation.AuthUserKey;
 
 import java.util.List;
 

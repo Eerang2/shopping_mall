@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장바구니 결제</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .price-info, .discount-info {
+            margin-bottom: 15px;
+        }
+
+        .final-price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: red;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🛒 장바구니 결제</h2>
+
+<div id="cart-items">
+    <div th:each="item : ${products}" class="cart-item">
+        <p><strong>상품명:</strong> <span th:text="${item.product.name}"></span></p>
+        <p><strong>가격:</strong> <span th:text="${#numbers.formatDecimal(item.product.price, 0, 0)}"></span> 원</p>
+        <p><strong>수량:</strong> <span th:text="${item.quantity}"></span> 개</p>
+        <p><strong>합계:</strong> <span
+                th:text="${#numbers.formatDecimal(item.product.price * item.quantity, 0, 0)}"></span> 원</p>
+        <hr>
+    </div>
+</div>
+
+<div class="coupon-section">
+    <label for="couponSelect"><strong>쿠폰 선택:</strong></label>
+    <select id="couponSelect">
+        <option value="0">쿠폰 없음</option>
+        <option value="5000">5,000원 할인</option>
+        <option value="10000">10,000원 할인</option>
+    </select>
+</div>
+
+<div class="discount-info">
+    <p><strong>쿠폰 할인:</strong> <span id="couponDiscount">0</span> 원</p>
+    <p><strong>등급 할인:</strong> <span id="gradeDiscount">1000</span> 원
+        <span style="font-size: 13px" id="grade">등급</span>
+    </p>
+    <p th:if="${eventDiscount != null}">
+        <strong>이벤트 할인:</strong> <span id="eventDiscount">2000</span> 원
+    </p>
+</div>
+
+<hr>
+
+<p class="final-price">최종 결제 금액:
+    <span id="finalPrice">0</span> 원
+</p>
+
+<button id="payButton">💳 결제하기</button>
+
+<script src="/js/paymentPriceCalculator.js"></script>
+<script src="/js/secretPayment.js"></script>
+<script>
+    $(document).ready(function () {
+        // 장바구니 상품 가격 계산
+        function calculateTotalPrice() {
+            var totalPrice = 0;
+
+            // 각 상품에 대해 가격을 계산
+            $('div.cart-item').each(function () {
+                var priceText = $(this).find('p:nth-child(2) span').text().replace(/[^0-9]/g, '');
+                var quantityText = $(this).find('p:nth-child(3) span').text().replace(/[^0-9]/g, '');
+
+                var price = parseInt(priceText);
+                var quantity = parseInt(quantityText);
+
+                if (!isNaN(price) && !isNaN(quantity)) {
+                    totalPrice += price * quantity;
+                }
+            });
+
+            // 쿠폰 할인 적용
+            var couponDiscount = parseInt($('#couponSelect').val()) || 0;
+            totalPrice -= couponDiscount;
+
+            // 등급 할인 적용
+            var gradeDiscount = parseInt($('#gradeDiscount').text()) || 0;
+            totalPrice -= gradeDiscount;
+
+            // 이벤트 할인 적용
+            var eventDiscount = parseInt($('#eventDiscount').text()) || 0;
+            totalPrice -= eventDiscount;
+
+            // 최종 가격이 음수가 되지 않도록 처리
+            totalPrice = Math.max(0, totalPrice);
+
+            // 최종 가격을 화면에 업데이트
+            $('#finalPrice').text(totalPrice.toLocaleString());
+        }
+
+        // 쿠폰 선택 시 가격 재계산
+        $('#couponSelect').change(function () {
+            calculateTotalPrice();
+        });
+
+        // 페이지 로드 시 가격 계산
+        calculateTotalPrice();
+    });
+</script>
+
+</body>
+</html>
