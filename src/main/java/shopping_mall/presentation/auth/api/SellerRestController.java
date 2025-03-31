@@ -7,10 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import shopping_mall.application.service.FileUploadService;
 import shopping_mall.application.auth.service.impl.SellerServiceImpl;
-import shopping_mall.domain.auth.annotation.AuthUserKey;
+import shopping_mall.application.service.FileUploadService;
 import shopping_mall.infrastructure.util.CookieUtil;
+import shopping_mall.presentation.auth.annotation.AuthUserKey;
 import shopping_mall.presentation.auth.api.dto.SellerReq;
 
 import java.io.IOException;

@@ -2,7 +2,7 @@ package shopping_mall.application.auth.service.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import shopping_mall.domain.auth.enums.Role;
+import shopping_mall.application.auth.enums.Role;
 
 @Getter
 @Builder

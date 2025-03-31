@@ -53,7 +53,7 @@ $(document).ready(function () {
             url: "/api/check-id",
             data: { username: username },
             success: function (response) {
-                if (response.available) {
+                if (response) {
                     $("#usernameCheckResult").text("사용 가능한 아이디입니다.").css("color", "green");
                     isUsernameAvailable = true;
                 } else {
@@ -73,7 +73,10 @@ $(document).ready(function () {
 
         let username = $("#userId").val().trim();
         let password = $("#password").val().trim();
+        let name = $("#name").val().trim();
+        let phoneNumber = $("#phoneNumber").val().trim();
         let confirmPassword = $("#confirmPassword").val().trim();
+
 
         // 아이디 중복 확인 여부 체크
         if (!isUsernameAvailable) {
@@ -106,6 +109,8 @@ $(document).ready(function () {
         let formData = {
             userId: username,
             password: password,
+            name: name,
+            phoneNumber: phoneNumber,
             confirmPassword: confirmPassword
         };
 

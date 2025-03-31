@@ -5,11 +5,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import shopping_mall.application.auth.enums.Role;
+import shopping_mall.application.auth.repository.entity.Admin;
+import shopping_mall.application.auth.repository.entity.Seller;
 import shopping_mall.application.auth.service.impl.SellerServiceImpl;
-import shopping_mall.domain.auth.entity.SellerEntity;
-import shopping_mall.domain.auth.enums.Role;
-import shopping_mall.domain.auth.model.Admin;
-import shopping_mall.domain.auth.annotation.AuthUserKey;
+import shopping_mall.presentation.auth.annotation.AuthUserKey;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class AdminFrontController {
 
     @GetMapping("/admin/approve-seller")
     public String approveForm(Model model) {
-        List<SellerEntity> notApproveSellers = sellerService.findAll();
+        List<Seller> notApproveSellers = sellerService.findAll();
         model.addAttribute("sellers", notApproveSellers);
         return "admin/approve-seller";
     }

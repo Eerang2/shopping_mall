@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shopping_mall.domain.auth.enums.Role;
-import shopping_mall.domain.auth.model.Admin;
+import shopping_mall.application.auth.enums.Role;
+import shopping_mall.application.auth.repository.entity.Admin;
 
 @Getter
 public class AdminReq {
@@ -24,7 +24,7 @@ public class AdminReq {
             return password.equals(confirmPassword);
         }
 
-        public Admin toModel() {
+        public Admin toEntity() {
             return Admin.builder()
                     .id(adminId)
                     .password(password)
@@ -41,7 +41,7 @@ public class AdminReq {
         private String adminId;
         private String password;
 
-        public Admin toModel() {
+        public Admin toEntity() {
             return Admin.builder()
                     .id(adminId)
                     .password(password)
@@ -59,7 +59,7 @@ public class AdminReq {
         private String role;
 
 
-        public Admin toModel() {
+        public Admin toEntity() {
             if (role.equals(Role.ADMIN.name())) {
                 return Admin.builder()
                     .name(adminName)

@@ -38,14 +38,14 @@ public class AdminRestController {
         if (!admin.passwordMatch()) {
             throw new IllegalArgumentException("비밀번호가 일치하지않습니다.");
         }
-        adminService.register(admin.toModel());
+        adminService.register(admin.toEntity());
     }
 
     @PostMapping("/login")
     public void login(@RequestBody @Valid AdminReq.Login admin,
                       HttpServletResponse response) {
 
-        String token = adminService.login(admin.toModel());
+        String token = adminService.login(admin.toEntity());
         response.addCookie(CookieUtil.createJwtCookie(token));
     }
 
@@ -57,7 +57,7 @@ public class AdminRestController {
 
     @PostMapping("/create")
     public void createAdmin(@RequestBody  AdminReq.Create admin) {
-        adminService.createAdmin(admin.toModel());
+        adminService.createAdmin(admin.toEntity());
     }
     @PostMapping("/seller/approve/{id}")
     public String approve(@PathVariable String id) {

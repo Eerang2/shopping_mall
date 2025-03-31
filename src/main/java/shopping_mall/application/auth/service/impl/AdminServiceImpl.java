@@ -5,16 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shopping_mall.application.auth.enums.ApprovalStatus;
+import shopping_mall.application.auth.enums.Role;
+import shopping_mall.application.auth.repository.AdminRepository;
+import shopping_mall.application.auth.repository.entity.Admin;
 import shopping_mall.application.auth.service.AuthService;
 import shopping_mall.application.auth.service.dto.AuthUser;
-import shopping_mall.application.service.UniqueIdGenerator;
-import shopping_mall.domain.auth.entity.AdminEntity;
-import shopping_mall.domain.auth.enums.ApprovalStatus;
-import shopping_mall.domain.auth.enums.Role;
 import shopping_mall.application.auth.service.exception.LoginValidException;
 import shopping_mall.application.auth.service.exception.ValidRoleException;
-import shopping_mall.domain.auth.model.Admin;
-import shopping_mall.infrastructure.auth.repository.AdminRepository;
+import shopping_mall.application.service.UniqueIdGenerator;
 import shopping_mall.infrastructure.util.JwtUtil;
 
 @Service
@@ -38,7 +37,7 @@ public class AdminServiceImpl implements AuthService<Admin> {
     @Transactional
     public void register(Admin admin) {
         // id 체크
-        AdminEntity adminEntity = adminRepository.findById(admin.getId())
+        Admin adminEntity = adminRepository.findById(admin.getId())
                         .orElseThrow(ValidRoleException::new);
 
         if (adminEntity.getStatus() != ApprovalStatus.PENDING ) {
@@ -55,7 +54,7 @@ public class AdminServiceImpl implements AuthService<Admin> {
     @Transactional
     public String login(Admin admin) {
         // id 체크
-        AdminEntity adminEntity = adminRepository.findById(admin.getId())
+        Admin adminEntity = adminRepository.findById(admin.getId())
                 .orElseThrow(ValidRoleException::new);
 
         // role, status 체크
@@ -73,7 +72,7 @@ public class AdminServiceImpl implements AuthService<Admin> {
     @Transactional
     public void createAdmin(Admin admin) {
         String uniqueId = uniqueIdGenerator.generateUniqueId();
-        AdminEntity entity = admin.toEntity(uniqueId, admin.getName(), admin.getRole());
+        Admin entity = Admin.of(uniqueId, admin.getName(), admin.getRole());
         adminRepository.save(entity);
     }
 }

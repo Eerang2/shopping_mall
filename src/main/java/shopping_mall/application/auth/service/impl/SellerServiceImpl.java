@@ -5,17 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shopping_mall.application.auth.service.dto.AuthUser;
+import shopping_mall.application.auth.enums.ApprovalStatus;
+import shopping_mall.application.auth.enums.Role;
+import shopping_mall.application.auth.repository.SellerRepository;
+import shopping_mall.application.auth.repository.entity.Seller;
 import shopping_mall.application.auth.service.AuthService;
-import shopping_mall.domain.auth.entity.SellerEntity;
-import shopping_mall.domain.auth.enums.ApprovalStatus;
-import shopping_mall.domain.auth.enums.Role;
+import shopping_mall.application.auth.service.dto.AuthUser;
 import shopping_mall.application.auth.service.exception.LoginValidException;
 import shopping_mall.application.auth.service.exception.NotApproveSellerException;
-import shopping_mall.domain.product.model.Product;
-import shopping_mall.domain.auth.model.Seller;
-import shopping_mall.infrastructure.auth.repository.ProductRepository;
-import shopping_mall.infrastructure.auth.repository.SellerRepository;
+import shopping_mall.application.product.repository.ProductRepository;
+import shopping_mall.application.product.repository.entity.Product;
 import shopping_mall.infrastructure.util.JwtUtil;
 
 import java.util.List;
@@ -39,13 +38,11 @@ public class SellerServiceImpl implements AuthService<Seller> {
     @Override
     @Transactional
     public void register(Seller seller) {
-        // validation
-        seller.validate();
         // 비밀번호 암호화
         String encodingPassword = passwordEncoder.encode(seller.getPassword());
         // 기본 enum 세팅
         Seller createSeller = Seller.of(seller.getId(), seller.getStoreName(), encodingPassword, seller.getRegistrationNumber());
-        sellerRepository.save(createSeller.toEntity());
+        sellerRepository.save(createSeller);
 
 
     }
@@ -55,7 +52,7 @@ public class SellerServiceImpl implements AuthService<Seller> {
     public String login(Seller seller) {
 
         // validation
-        SellerEntity sellerEntity = sellerRepository.findById(seller.getId())
+        Seller sellerEntity = sellerRepository.findById(seller.getId())
                 .orElseThrow(LoginValidException::new);
 
         if (!sellerEntity.getRole().equals(Role.SELLER)) {
@@ -75,14 +72,14 @@ public class SellerServiceImpl implements AuthService<Seller> {
         return jwtUtil.createAccessToken(authUser);
     }
 
-    public List<SellerEntity> findAll() {
+    public List<Seller> findAll() {
         return sellerRepository.findAllByStatus(ApprovalStatus.PENDING);
     }
 
     @Transactional
     public void approveSeller(String sellerId) {
-        SellerEntity sellerEntity = sellerRepository.findById(sellerId).orElseThrow(RuntimeException::new);
-        sellerEntity.setStatus(ApprovalStatus.APPROVED);
+        Seller seller = sellerRepository.findById(sellerId).orElseThrow(RuntimeException::new);
+        seller.setStatus(ApprovalStatus.APPROVED);
     }
 
     @Transactional
@@ -91,6 +88,6 @@ public class SellerServiceImpl implements AuthService<Seller> {
                 .orElseThrow(() -> new NotApproveSellerException("권한이 없습니다."));
 
         Product createProduct = Product.of(sellerKey, product.getName(), product.getPrice(), product.getStock(), product.getUniqueImagePath());
-        productRepository.save(createProduct.toEntity());
+        productRepository.save(createProduct);
     }
 }

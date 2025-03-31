@@ -7,9 +7,9 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import shopping_mall.application.auth.enums.Role;
+import shopping_mall.application.auth.repository.entity.User;
 import shopping_mall.application.auth.service.dto.AuthUser;
-import shopping_mall.domain.auth.enums.Role;
-import shopping_mall.domain.auth.model.User;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;

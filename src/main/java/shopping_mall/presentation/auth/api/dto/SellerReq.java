@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import shopping_mall.domain.product.model.Product;
-import shopping_mall.domain.auth.model.Seller;
+import shopping_mall.application.auth.repository.entity.Seller;
+import shopping_mall.application.product.repository.entity.Product;
 import shopping_mall.infrastructure.config.jakson.BigDecimalDeserializer;
 
 import java.math.BigDecimal;
