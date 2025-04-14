@@ -24,10 +24,19 @@ public class OrderItem {
     @Column(name = "order_item_key")
     private Long key;
 
+    @Column(nullable = false)
     private Long orderMainKey;
 
+    @Column(nullable = false)
     private Long cartItemKey;
+
+    @Column(nullable = false)
     private int quantity;
+
+    @Column(nullable = false)
     private BigDecimal price;
+
+    @Column(updatable = false)
+    @org.springframework.data.annotation.CreatedDate
     private LocalDateTime createdAt;
 }

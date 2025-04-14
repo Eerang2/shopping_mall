@@ -91,7 +91,7 @@ public class CartService {
         List<Product> selectedProducts = findProductsByCartItems(cartItems).stream()
                 .filter(product -> productOrderRequests.stream()
                         .anyMatch(req -> req.getProductKey().equals(product.getKey())))
-                .collect(Collectors.toList());
+                .toList();
 
         //  Product -> CartProduct 변환
         List<CartProductRes.CartProduct> cartProducts = selectedProducts.stream()
@@ -109,7 +109,7 @@ public class CartService {
                             .quantity(quantity)
                             .build();
                 })
-                .collect(Collectors.toList());
+                .toList();
 
         // 5️⃣ 총 가격 계산 (선택된 상품만 반영)
         BigDecimal totalPrice = calcFinalPrice(selectedProducts, productOrderRequests);

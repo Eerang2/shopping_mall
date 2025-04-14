@@ -23,8 +23,6 @@ public class PortOneService {
     private String apiSecret;
 
     private String getAccessToken() {
-        System.out.println("=========> " + apiKey);
-        System.out.println("=========> " + apiSecret);
         String url = "https://api.iamport.kr/users/getToken";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
