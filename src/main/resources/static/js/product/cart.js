@@ -106,7 +106,7 @@ function checkout() {
 
     // 선택된 상품을 백엔드로 전달하고 결제 페이지로 이동
     let queryString = selectedItems.map(item => `products=${item.productId},${item.quantity}`).join("&");
-    window.location.href = `/payment/cart?${queryString}`;
+    window.location.href = `/payment/cart/checkout?${queryString}`;
 }
 
 fetchCartData();  // 페이지 로딩 시 장바구니 데이터 불러오기

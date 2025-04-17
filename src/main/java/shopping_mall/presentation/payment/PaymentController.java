@@ -25,32 +25,28 @@ public class PaymentController {
     private final CartService cartService;
     private final UserServiceImpl userService;
 
-    @GetMapping("/payment/cart")
+    @GetMapping("/payment/cart/checkout")
     public String paymentForm(@RequestParam(value = "products", required = false) String products,
                               @AuthUserKey Long userKey,
                               Model model) {
-        List<ProductOrderRequest> cartProducts = new ArrayList<>();
+        List<ProductOrderRequest> cartProducts = parseProductParam(products);
+        return renderPaymentPage(cartProducts, userKey, model);
+    }
 
-        // 상품아이디와 수량 형변환
-        if (products != null && !products.isEmpty()) {
-            String[] productInfo = products.split(",");
+    @GetMapping("/payment/direct/checkout")
+    public String paymentDirectForm(@RequestParam(value = "products", required = false) String products,
+                                    @AuthUserKey Long userKey,
+                                    Model model) {
+        List<ProductOrderRequest> directProducts = parseProductParam(products);
+        return renderPaymentPage(directProducts, userKey, model);
+    }
 
-
-            for (int i = 0; i < productInfo.length; i += 2) {
-                Long productId = Long.parseLong(productInfo[i]);
-                int quantity = Integer.parseInt(productInfo[i + 1]);
-                cartProducts.add(new ProductOrderRequest(productId, quantity));
-            }
-        }
-
-        // 상품 정보 조회
-        CartProductRes res = cartService.findAllByCartProducts(cartProducts, userKey);
-
+    // 🔽 공통 로직 추출
+    private String renderPaymentPage(List<ProductOrderRequest> products, Long userKey, Model model) {
+        CartProductRes res = cartService.findAllByCartProducts(products, userKey);
         User user = userService.findUser(userKey);
-        // 유저 배송지 정보 조회
         UserShippingAddress userShippingAddress = userService.userAddress(userKey);
 
-        // 배송지가 존재하는지 여부 확인
         boolean addressExists = (userShippingAddress != null);
         model.addAttribute("addressExists", addressExists);
 
@@ -62,6 +58,20 @@ public class PaymentController {
         model.addAttribute("response", res);
 
         return "payment/cart";
+    }
+
+    // 🔽 products 파싱 로직도 따로 빼자
+    private List<ProductOrderRequest> parseProductParam(String products) {
+        List<ProductOrderRequest> productList = new ArrayList<>();
+        if (products != null && !products.isEmpty()) {
+            String[] productInfo = products.split(",");
+            for (int i = 0; i < productInfo.length; i += 2) {
+                Long productId = Long.parseLong(productInfo[i]);
+                int quantity = Integer.parseInt(productInfo[i + 1]);
+                productList.add(new ProductOrderRequest(productId, quantity));
+            }
+        }
+        return productList;
     }
 
     @GetMapping("/payment/success")

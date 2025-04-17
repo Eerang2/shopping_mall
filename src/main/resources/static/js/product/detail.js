@@ -29,19 +29,22 @@ function addToCart(productId) {
     }
 }
 
-// 💳 바로 구매 (로그인 여부 확인 후 이동)
 function buyNow(productId) {
-    // 🍪 JWT 쿠키 확인
     const token = getCookie("JWT_TOKEN");
-
     if (!token) {
         alert("로그인이 필요합니다! 🔒");
-        window.location.href = "/login"; // 로그인 페이지로 이동
+        window.location.href = "/login";
         return;
     }
 
-    // ✅ 로그인된 상태면 구매 페이지로 이동
-    window.location.href = `/payment/` + productId;
+    // ✅ 수량 가져오기 (value는 함수 아님!)
+    const quantity = document.getElementById("quantity").value;
+
+    // ✅ 단일 상품에 맞는 query string 생성
+    const queryString = `products=${productId},${quantity}`;
+
+    // ✅ 결제 페이지로 이동
+    window.location.href = `/payment/direct/checkout?${queryString}`;
 }
 
 // 🍪 쿠키 가져오는 함수
